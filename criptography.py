@@ -51,9 +51,17 @@ class CriptographyEB:
         for _ in range(char_ghost):
             message = message + "z"
 
-        message_encrypted = len(message) % 5
+        matrix = []
+        temp_mat = []
+        # matrix = [[b, e ,m , v, i, n], [d,o,a,c,r], ...]
+        for i, char in enumerate(message):
+            temp_mat.append(char)
 
-        return message
+            if len(temp_mat) == max(key) or i + 1 == len(message):
+                matrix.append(temp_mat)
+                temp_mat = []
+
+        return matrix
 
     def decrypt(self, message):
         """Realiza a descriptografia da mensagem fornecida"""
@@ -62,4 +70,7 @@ class CriptographyEB:
 
 
 if __name__ == "__main__":
-    pass
+    cript_eb = CriptographyEB({"char_a1": ("E", "2"), "char_a2": ("J", "8")})
+    mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "banana")
+
+    print(mensagem_data)
