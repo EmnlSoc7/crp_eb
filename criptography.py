@@ -10,10 +10,10 @@ class CriptographyEB:
         """Inicializacao da classe"""
 
         self.char_a1 = char_au["char_a1"][0]
-        self.char_a1_pos = char_au["char_a1"][1]
+        self.char_a1_pos = int(char_au["char_a1"][1])
 
         self.char_a2 = char_au["char_a2"][0]
-        self.char_a2_pos = char_au["char_a2"][1]
+        self.char_a2_pos = int(char_au["char_a2"][1])
 
     def convert_key(self, keyword):
         """Converte Chave de Caractere para Ordem Numérica"""
@@ -64,6 +64,35 @@ class CriptographyEB:
         # Criado sem numpy, enumerado os indexes na ordem de criptografia
         key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
         print(key_indexes)
+        print(matrix)
+
+        temp_mat2 = []
+        encrypted_message = []
+        count_w = 1
+        for i in key_indexes:
+            print(i)
+            for line in matrix:
+                for head, column in enumerate(line):
+
+                    if len(temp_mat2) == 5:
+                        encrypted_message.append(temp_mat2)
+                        temp_mat2 = []
+
+                    if count_w == self.char_a1_pos:
+                        temp_mat2.append(self.char_a1)
+                        count_w += 1
+                    elif count_w == self.char_a2_pos:
+                        temp_mat2.append(self.char_a2)
+                        count_w += 1
+
+                    if head == i:
+                        if len(temp_mat2) == 5:
+                            encrypted_message.append(temp_mat2)
+                            temp_mat2 = []
+
+                        temp_mat2.append(column)
+                        count_w += 1
+                        print(f"char: {column}")
 
         return matrix
 
@@ -74,7 +103,7 @@ class CriptographyEB:
 
 
 if __name__ == "__main__":
-    cript_eb = CriptographyEB({"char_a1": ("E", "2"), "char_a2": ("J", "8")})
+    cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
     mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "banana")
 
     print(mensagem_data)
