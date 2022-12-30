@@ -11,7 +11,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
         """Responsável por testar a encriptação"""
 
         cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-        mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "banana")
+        mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "")
         # b a n a n a
         # 4 1 5 2 6 3
 
@@ -22,7 +22,9 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2_pos, 8)
 
         # self.assertTrue((len(mensagem_data) + 2) % 5 == 0)  # Verifica se gerou multiplo de 5 na Mensagem
-        # self.assertEqual( messagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP") Verifica Mensagem final de {"char_a1": ("E", "2"), "char_a2": ("J", "8")} com encriptação de "bem vindo à criptografia de transp", "banana"
+        self.assertEqual(
+            mensagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
+        )  ### Verifica Mensagem final de {"char_a1": ("E", "2"), "char_a2": ("J", "8")} com encriptação de "bem vindo à criptografia de transp", "banana"
 
     def test_convert_key(self):
         """Responsável por testar a conversão da chave para numérica"""

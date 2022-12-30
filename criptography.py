@@ -9,6 +9,9 @@ class CriptographyEB:
     def __init__(self, char_au):
         """Inicializacao da classe"""
 
+        if char_au["char_a1"][1] == char_au["char_a2"][1]:
+            print("Autenticação com posição duplicada")
+            exit()
         self.char_a1 = char_au["char_a1"][0]
         self.char_a1_pos = int(char_au["char_a1"][1])
 
@@ -63,20 +66,13 @@ class CriptographyEB:
 
         # Criado sem numpy, enumerado os indexes na ordem de criptografia
         key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
-        print(key_indexes)
-        print(matrix)
 
         temp_mat2 = []
         encrypted_message = []
         count_w = 1
         for i in key_indexes:
-            print(i)
             for line in matrix:
                 for head, column in enumerate(line):
-
-                    if len(temp_mat2) == 5:
-                        encrypted_message.append(temp_mat2)
-                        temp_mat2 = []
 
                     if count_w == self.char_a1_pos:
                         temp_mat2.append(self.char_a1)
@@ -92,9 +88,19 @@ class CriptographyEB:
 
                         temp_mat2.append(column)
                         count_w += 1
-                        print(f"char: {column}")
 
-        return matrix
+                    if len(temp_mat2) == 5:
+                        encrypted_message.append(temp_mat2)
+                        temp_mat2 = []
+
+        final_message = ""
+        for lists in encrypted_message:
+            for head, char in enumerate(lists):
+                if head == 0:
+                    final_message += " "
+                final_message += char
+
+        return final_message.strip().upper()
 
     def decrypt(self, message):
         """Realiza a descriptografia da mensagem fornecida"""
@@ -103,7 +109,7 @@ class CriptographyEB:
 
 
 if __name__ == "__main__":
-    cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-    mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "banana")
+    cript_eb = CriptographyEB({"char_a1": ("A", 2), "char_a2": ("R", 8)})
+    mensagem_data = cript_eb.encrypt("pega a conexao seu bosta", "banana")
 
     print(mensagem_data)
