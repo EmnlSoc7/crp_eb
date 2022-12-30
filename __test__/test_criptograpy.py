@@ -19,8 +19,8 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2, "J")
         self.assertEqual(cript_eb.char_a2_pos, "8")
 
-        # self.assertTrue((len(mensagem_data) + 2) % 5 == 0)  # Verifica se gerou multiplo de 5
-        # self.assertEqual( messagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
+        # self.assertTrue((len(mensagem_data) + 2) % 5 == 0)  # Verifica se gerou multiplo de 5 na Mensagem
+        # self.assertEqual( messagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP") Verifica Mensagem final de {"char_a1": ("E", "2"), "char_a2": ("J", "8")} com encriptação de "bem vindo à criptografia de transp", "banana"
 
     def test_convert_key(self):
         """Responsável por testar a conversão da chave para numérica"""

@@ -61,6 +61,10 @@ class CriptographyEB:
                 matrix.append(temp_mat)
                 temp_mat = []
 
+        # Criado sem numpy, enumerado os indexes na ordem de criptografia
+        key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
+        print(key_indexes)
+
         return matrix
 
     def decrypt(self, message):
