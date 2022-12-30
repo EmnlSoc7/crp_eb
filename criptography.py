@@ -6,9 +6,8 @@ from unidecode import unidecode
 class CriptographyEB:
     """Responsável pelo controle da criptografia"""
 
-    def __init__(self, chave, char_au):
+    def __init__(self, char_au):
         """Inicializacao da classe"""
-        self.chave = chave
 
         self.char_a1 = char_au["char_a1"][0]
         self.char_a1_pos = char_au["char_a1"][1]
@@ -16,12 +15,14 @@ class CriptographyEB:
         self.char_a2 = char_au["char_a2"][0]
         self.char_a2_pos = char_au["char_a2"][1]
 
-    def convert_key(self):
+    def convert_key(self, keyword):
         """Converte Chave de Caractere para Ordem Numérica"""
 
         alfa = "abcdefghijklmnopqrstuvwxyz"
-        key = ['_' for _ in range(len(self.chave))]
-        key_char = self.chave
+
+        keyword = keyword.lower()
+        key = [0 for _ in range(len(keyword))]
+        key_char = keyword
 
         count = 1
         for letter in alfa:
@@ -32,10 +33,14 @@ class CriptographyEB:
 
         return key
 
-    def encrypt(self, message):
+    def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
-        message = unidecode(''.join(e for e in message if e.isalnum()))
+        message = unidecode("".join(e for e in message if e.isalnum()))
+        key = self.convert_key(keyword)
+
+        # bemvindoacriptografiadetransp
+        # [4, 1, 5, 2, 6, 3]
 
         message_encrypted = message
 
@@ -47,5 +52,5 @@ class CriptographyEB:
         return message
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
