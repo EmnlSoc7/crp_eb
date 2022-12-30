@@ -20,6 +20,8 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2_pos, "8")
 
         self.assertEqual(mensagem_data, "bemvindoacriptografiadetransp")
+            (len(mensagem_data) + 2) % 5 == 0
+        )  # Verifica se gerou multiplo de 5
         # self.assertEqual( messagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
 
     def test_convert_key(self):

@@ -40,11 +40,20 @@ class CriptographyEB:
         key = self.convert_key(keyword)
 
         # bemvindoacriptografiadetransp
+        # 29 caracteres
         # [4, 1, 5, 2, 6, 3]
 
-        message_encrypted = message
+        if len(message) % 5 == 4:
+            char_ghost = 4
+        else:
+            char_ghost = 3 - (len(message) % 5)
 
-        return message_encrypted
+        for _ in range(char_ghost):
+            message = message + "z"
+
+        message_encrypted = len(message) % 5
+
+        return message
 
     def decrypt(self, message):
         """Realiza a descriptografia da mensagem fornecida"""
