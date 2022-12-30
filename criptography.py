@@ -36,8 +36,8 @@ class CriptographyEB:
 
         return key
 
-    def sumarize_word(self, message: str, gap=2, base=5, ghost="z"):
-        """Realiza a sumarização matemática da mensagem"""
+    def sumarize_text(self, message: str, gap=2, base=5, ghost="z"):
+        """Realiza a sumarização matemática de um texto"""
 
         message = unidecode("".join(e for e in message if e.isalnum()))
         qtd_ghost = (
@@ -51,10 +51,21 @@ class CriptographyEB:
 
         return message
 
+    def lists_to_string(self, list_message):
+        """Separa lista de listas em forma de String"""
+        message = ""
+        for lists in list_message:
+            for head, char in enumerate(lists):
+                if head == 0:
+                    message += " "
+                message += char
+
+        return message
+
     def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
-        message = self.sumarize_word(message)
+        message = self.sumarize_text(message)
         key = self.convert_key(keyword)
 
         # bemvindoacriptografiadetransp
@@ -100,13 +111,7 @@ class CriptographyEB:
                         encrypted_message.append(temp_mat2)
                         temp_mat2 = []
 
-        final_message = ""
-        for lists in encrypted_message:
-            for head, char in enumerate(lists):
-                if head == 0:
-                    final_message += " "
-                final_message += char
-
+        final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
 
     def decrypt(self, message):
