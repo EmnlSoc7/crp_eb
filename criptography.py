@@ -40,7 +40,11 @@ class CriptographyEB:
         """Realiza a sumarização matemática da mensagem"""
 
         message = unidecode("".join(e for e in message if e.isalnum()))
-        qtd_ghost = base - ((len(message) + gap) % base)
+        qtd_ghost = (
+            0
+            if base - ((len(message) + gap) % base) >= base
+            else base - ((len(message) + gap) % base)
+        )
 
         for _ in range(qtd_ghost):
             message = message + ghost
@@ -115,6 +119,7 @@ if __name__ == "__main__":
     cript_eb = CriptographyEB({"char_a1": ("A", 2), "char_a2": ("R", 8)})
     # mensagem_data = cript_eb.encrypt("", "banana")
 
-    output = cript_eb.encrypt("cidades eficientes pessoas felizes", "betha")
+    output = cript_eb.sumarize_word("cidades eficientes pessoas feli")
 
     print(output)
+    print(len(output))
