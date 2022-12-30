@@ -36,23 +36,26 @@ class CriptographyEB:
 
         return key
 
+    def sumarize_word(self, message: str, gap=2, base=5, ghost="z"):
+        """Realiza a sumarização matemática da mensagem"""
+
+        message = unidecode("".join(e for e in message if e.isalnum()))
+        qtd_ghost = base - ((len(message) + gap) % base)
+
+        for _ in range(qtd_ghost):
+            message = message + ghost
+
+        return message
+
     def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
-        message = unidecode("".join(e for e in message if e.isalnum()))
+        message = self.sumarize_word(message)
         key = self.convert_key(keyword)
 
         # bemvindoacriptografiadetransp
         # 29 caracteres
         # [4, 1, 5, 2, 6, 3]
-
-        if len(message) % 5 == 4:
-            char_ghost = 4
-        else:
-            char_ghost = 3 - (len(message) % 5)
-
-        for _ in range(char_ghost):
-            message = message + "z"
 
         matrix = []
         temp_mat = []
@@ -110,6 +113,8 @@ class CriptographyEB:
 
 if __name__ == "__main__":
     cript_eb = CriptographyEB({"char_a1": ("A", 2), "char_a2": ("R", 8)})
-    mensagem_data = cript_eb.encrypt("pega a conexao seu bosta", "banana")
+    # mensagem_data = cript_eb.encrypt("", "banana")
 
-    print(mensagem_data)
+    output = cript_eb.encrypt("cidades eficientes pessoas felizes", "betha")
+
+    print(output)

@@ -11,7 +11,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
         """Responsável por testar a encriptação"""
 
         cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-        mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "")
+        mensagem_data = cript_eb.encrypt("bem vindo à criptografia de transp", "banana")
         # b a n a n a
         # 4 1 5 2 6 3
 
