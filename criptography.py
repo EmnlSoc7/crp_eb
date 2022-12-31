@@ -81,6 +81,27 @@ class CriptographyEB:
         """Retorna os indices em ordem crescente de uma lista de inteiros"""
         return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 
+    def validate_autentication(self, message):
+        """Realiza a autenticação da mensagem fornecida"""
+        message = message.replace(" ", "")
+        message_autenticated = ""
+        char_a1_index = self.char_a1_pos - 1
+        char_a2_index = self.char_a2_pos - 1
+
+        if (
+            message[char_a1_index] == self.char_a1
+            and message[char_a2_index] == self.char_a2
+        ):
+            message_autenticated = (
+                message[:char_a1_index] + message[char_a1_index + 1 :]
+            )
+            message_autenticated = (
+                message_autenticated[: char_a2_index - 1]
+                + message_autenticated[char_a2_index:]
+            )
+            return message_autenticated
+        return False
+
 
 class SimpleCypher(CriptographyEB):
     """Classe de criptografia de chave simples"""
@@ -133,11 +154,12 @@ class SimpleCypher(CriptographyEB):
         final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
 
-    def decrypt(self, message):
+    def decrypt(self):
         """Realiza a descriptografia da mensagem fornecida"""
 
+        message = self.validate_autentication(self.message)
+
         # TODO: Descriptografar mensagem
-        # Verificar as chaves de autenticação e remove-las da mensagem
         # converter index da chave
         # identificar quantidade de letras na mensagem
         # distribuir mensagem por coluna

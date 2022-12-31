@@ -26,12 +26,22 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertListEqual(key, [4, 1, 5, 2, 6, 3])  # valida ordem da chave
         self.assertEqual("bemvindoacriptografiadetranspzzzz", message)
 
+    def test_validate_autentication(self):
+        """Responsável por validar a autenticação"""
+
+        cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
+        message = cript_eb.validate_autentication(
+            "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
+        )
+
+        self.assertEqual(message, "EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP")
+
 
 class TestSimpleCypherMethods(unittest.TestCase):
     """Responsável por testar Metodo SimpleCypher"""
 
     def test_encrypt(self):
-        """Responsável por testar a encriptação"""
+        """Responsável por testar a encriptação da chave simples"""
 
         cript_eb = SimpleCypher(
             {"char_a1": ("E", 2), "char_a2": ("J", 8)},
@@ -50,6 +60,28 @@ class TestSimpleCypherMethods(unittest.TestCase):
 
         self.assertEqual(mensagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
         # Valida resultado
+
+    def test_decrypt(self):
+        """Responsável por testar a decriptação da chave simples"""
+        cript_eb = SimpleCypher(
+            {"char_a1": ("E", 2), "char_a2": ("J", 8)},
+            "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP",
+            "banana",
+        )
+        mensagem_data = cript_eb.decrypt()
+
+        self.assertEqual(cript_eb.char_a1, "E")
+        self.assertEqual(cript_eb.char_a1_pos, 2)
+
+        self.assertEqual(cript_eb.char_a2, "J")
+        self.assertEqual(cript_eb.char_a2_pos, 8)
+
+        # self.assertEqual(mensagem_data, "EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP")
+
+        # self.assertEqual(cript_eb.message[cript_eb.char_a1_pos - 1], cript_eb.char_a1)
+        # self.assertEqual(cript_eb.message[cript_eb.char_a2_pos - 1], cript_eb.char_a2)
+
+        self.assertEqual(mensagem_data, "bemvindoacriptografiadetranspzz")
 
 
 if __name__ == "__main__":
