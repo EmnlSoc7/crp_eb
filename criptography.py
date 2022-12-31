@@ -62,6 +62,21 @@ class CriptographyEB:
 
         return message
 
+    def generate_matrix(self, message: str, key: list[int]) -> list:
+        """Cria uma matriz com maximo de colunas de uma chave especifica"""
+
+        matrix = []
+        temp_mat = []
+
+        for head, char in enumerate(message):
+            temp_mat.append(char)
+
+            if len(temp_mat) == max(key) or head + 1 == len(message):
+                matrix.append(temp_mat)
+                temp_mat = []
+
+        return matrix
+
     def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
@@ -72,15 +87,7 @@ class CriptographyEB:
         # 29 caracteres
         # [4, 1, 5, 2, 6, 3]
 
-        matrix = []
-        temp_mat = []
-        # matrix = [[b, e ,m , v, i, n], [d,o,a,c,r], ...]
-        for i, char in enumerate(message):
-            temp_mat.append(char)
-
-            if len(temp_mat) == max(key) or i + 1 == len(message):
-                matrix.append(temp_mat)
-                temp_mat = []
+        matrix = self.generate_matrix(message, key)
 
         # Criado sem numpy, enumerado os indexes na ordem de criptografia
         key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
@@ -121,10 +128,8 @@ class CriptographyEB:
 
 
 if __name__ == "__main__":
-    cript_eb = CriptographyEB({"char_a1": ("A", 2), "char_a2": ("R", 8)})
-    # mensagem_data = cript_eb.encrypt("", "banana")
-
-    output = cript_eb.sumarize_word("cidades eficientes pessoas feli")
-
-    print(output)
-    print(len(output))
+    ##################################################################
+    # Criado testes unitários para testar o código de forma dinamica #
+    #                Não utilizar Módulo diretamente                 #
+    ##################################################################
+    pass
