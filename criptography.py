@@ -36,8 +36,8 @@ class CriptographyEB:
 
         return key
 
-    def sumarize_text(self, message: str, gap=2, base=5, ghost="z"):
-        """Realiza a sumarização matemática de um texto"""
+    def sumarize_text(self, message: str, gap=2, base=5, ghost="z") -> str:
+        """Formata string e adiciona letras fantasmas equiparar ao multiplo da base"""
 
         message = unidecode("".join(e for e in message if e.isalnum()))
         qtd_ghost = (
@@ -48,7 +48,7 @@ class CriptographyEB:
 
         for _ in range(qtd_ghost):
             message = message + ghost
-
+        print(message)
         return message
 
     def lists_to_string(self, list_message):
@@ -81,12 +81,24 @@ class CriptographyEB:
         """Retorna os indices em ordem crescente de uma lista de inteiros"""
         return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 
-    def encrypt(self, message, keyword):
+
+class SimpleCypher(CriptographyEB):
+    """Classe de criptografia de chave simples"""
+
+    def __init__(self, char_au, message: str, keyword: str):
+        super().__init__(char_au)
+        self.message = message
+        self.keyword = keyword
+
+    def encrypt(self):
         """Realiza a criptografia da mensagem fornecida"""
 
-        message = self.sumarize_text(message)  # Formata mensagem para mult de 5 + 2 au
-        key = self.convert_key(keyword)  # pega a ordem numérica da chave criptografica
-        matrix = self.generate_matrix(message, key)  # gera matriz da chave
+        # Formata mensagem para mult de 5 + 2 au
+        message = self.sumarize_text(self.message)
+        # pega a ordem numérica da chave criptografica
+        key = self.convert_key(self.keyword)
+        # gera matriz da chave
+        matrix = self.generate_matrix(message, key)
 
         # Criado sem numpy, enumerado os indexes da ordem numérica
         key_indexes = self.enumerate_indexes(key)
@@ -94,8 +106,9 @@ class CriptographyEB:
         temp_mat = []  # responsável pelas listas criptografadas
         encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
-        for i in key_indexes:
-            for line in matrix:
+        for i in key_indexes:  # percorre os cabeçalhos
+            for line in matrix:  # lê cada linha da estrutura gerada
+                # separa em uma nova lista de acordo com o head e adiciona autenticação
                 for head, column in enumerate(line):
 
                     if len(temp_mat) == 5:
