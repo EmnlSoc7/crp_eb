@@ -98,6 +98,10 @@ class CriptographyEB:
             for line in matrix:
                 for head, column in enumerate(line):
 
+                    if len(temp_mat) == 5:
+                        encrypted_message.append(temp_mat)
+                        temp_mat = []
+
                     if count_w == self.char_a1_pos:
                         temp_mat.append(self.char_a1)
                         count_w += 1
@@ -112,10 +116,6 @@ class CriptographyEB:
 
                         temp_mat.append(column)
                         count_w += 1
-
-                    if len(temp_mat) == 5:
-                        encrypted_message.append(temp_mat)
-                        temp_mat = []
 
         final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
