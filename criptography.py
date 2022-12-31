@@ -80,49 +80,50 @@ class CriptographyEB:
     def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
-        message = self.sumarize_text(message)
-        key = self.convert_key(keyword)
+        message = self.sumarize_text(message)  # Formata mensagem para mult de 5 + 2 au
+        key = self.convert_key(keyword)  # pega a ordem numérica da chave criptografica
+        matrix = self.generate_matrix(message, key)  # gera matriz da chave
 
-        # bemvindoacriptografiadetransp
-        # 29 caracteres
-        # [4, 1, 5, 2, 6, 3]
-
-        matrix = self.generate_matrix(message, key)
-
-        # Criado sem numpy, enumerado os indexes na ordem de criptografia
+        # Criado sem numpy, enumerado os indexes da ordem numérica
         key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 
-        temp_mat2 = []
-        encrypted_message = []
+        temp_mat = []  # responsável pelas listas criptografadas
+        encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
         for i in key_indexes:
             for line in matrix:
                 for head, column in enumerate(line):
 
                     if count_w == self.char_a1_pos:
-                        temp_mat2.append(self.char_a1)
+                        temp_mat.append(self.char_a1)
                         count_w += 1
                     elif count_w == self.char_a2_pos:
-                        temp_mat2.append(self.char_a2)
+                        temp_mat.append(self.char_a2)
                         count_w += 1
 
                     if head == i:
-                        if len(temp_mat2) == 5:
-                            encrypted_message.append(temp_mat2)
-                            temp_mat2 = []
+                        if len(temp_mat) == 5:
+                            encrypted_message.append(temp_mat)
+                            temp_mat = []
 
-                        temp_mat2.append(column)
+                        temp_mat.append(column)
                         count_w += 1
 
-                    if len(temp_mat2) == 5:
-                        encrypted_message.append(temp_mat2)
-                        temp_mat2 = []
+                    if len(temp_mat) == 5:
+                        encrypted_message.append(temp_mat)
+                        temp_mat = []
 
         final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
 
     def decrypt(self, message):
         """Realiza a descriptografia da mensagem fornecida"""
+
+        # TODO: Descriptografar mensagem
+        # Verificar as chaves de autenticação e remove-las da mensagem
+        # converter index da chave
+        # identificar quantidade de letras na mensagem
+        # distribuir mensagem por coluna
 
         return message
 
