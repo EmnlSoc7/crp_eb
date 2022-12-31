@@ -77,6 +77,10 @@ class CriptographyEB:
 
         return matrix
 
+    def enumerate_indexes(self, key: list[int]) -> list:
+        """Retorna os indices em ordem crescente de uma lista de inteiros"""
+        return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
+
     def encrypt(self, message, keyword):
         """Realiza a criptografia da mensagem fornecida"""
 
@@ -85,7 +89,7 @@ class CriptographyEB:
         matrix = self.generate_matrix(message, key)  # gera matriz da chave
 
         # Criado sem numpy, enumerado os indexes da ordem numérica
-        key_indexes = [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
+        key_indexes = self.enumerate_indexes(key)
 
         temp_mat = []  # responsável pelas listas criptografadas
         encrypted_message = []  # lista de listas final da criptografia
