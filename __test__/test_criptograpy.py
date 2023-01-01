@@ -76,12 +76,9 @@ class TestSimpleCypherMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2, "J")
         self.assertEqual(cript_eb.char_a2_pos, 8)
 
-        # self.assertEqual(mensagem_data, "EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP")
+        self.assertEqual(cript_eb.message, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
 
-        # self.assertEqual(cript_eb.message[cript_eb.char_a1_pos - 1], cript_eb.char_a1)
-        # self.assertEqual(cript_eb.message[cript_eb.char_a2_pos - 1], cript_eb.char_a2)
-
-        self.assertEqual(mensagem_data, "bemvindoacriptografiadetranspzz")
+        self.assertEqual(mensagem_data, "bemvindoacriptografiadetranspzzzz".upper())
 
 
 if __name__ == "__main__":
