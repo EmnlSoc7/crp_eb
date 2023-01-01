@@ -81,8 +81,21 @@ class CriptographyEB:
         """Retorna os indices em ordem crescente de uma lista de inteiros"""
         return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 
-    def validate_autentication(self, message):
-        """Realiza a autenticação da mensagem fornecida"""
+    def validate_autentication(self, message: str) -> tuple[str, bool]:
+        """
+        Faz a autenticação dos caracteres na mensagem e retorna
+        uma tupla com a mensagem formatada sem os caracteres especificos
+        e o status booleano da autenticação True ou retorna a propria
+        mensagem e o status booleano False.
+
+        Parametros:
+            message (str): Mensagem criptografada previamente.
+
+        Retorno:
+            tuple(message, bool): Tupla com a mensagem e o status da
+            validação da mensagem.
+        """
+
         message = message.replace(" ", "")
         message_autenticated = ""
         char_a1_index = self.char_a1_pos - 1
@@ -99,8 +112,8 @@ class CriptographyEB:
                 message_autenticated[: char_a2_index - 1]
                 + message_autenticated[char_a2_index:]
             )
-            return message_autenticated
-        return False
+            return (message_autenticated, True)
+        return (message, False)
 
 
 class SimpleCypher(CriptographyEB):
@@ -154,7 +167,7 @@ class SimpleCypher(CriptographyEB):
         final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
 
-    def decrypt(self):
+    def decrypt(self) -> dict[str, str]:
         """Realiza a descriptografia da mensagem fornecida"""
 
         ##### identificar o tamanho da mensagem sem aut
@@ -174,7 +187,11 @@ class SimpleCypher(CriptographyEB):
         # coluna = key_indexes[column_key]
         # -----------------------------------------------------------
 
-        message = self.validate_autentication(self.message)
+        message, validation = self.validate_autentication(self.message)
+
+        if validation is False:
+            return {"status": "error", "message": "Autenticação Invalida"}
+
         key = self.convert_key(self.keyword)
         key_indexes = self.enumerate_indexes(key)
 
@@ -223,7 +240,7 @@ class SimpleCypher(CriptographyEB):
 
         # Converte a matriz em string
         decrypted_message = self.lists_to_string(matrix).replace(" ", "")
-        return decrypted_message
+        return {"status": "success", "message": decrypted_message}
 
 
 if __name__ == "__main__":

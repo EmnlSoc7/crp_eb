@@ -30,10 +30,10 @@ class TestCriptographyEBMethods(unittest.TestCase):
         """Responsável por validar a autenticação"""
 
         cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-        message = cript_eb.validate_autentication(
+        message, autenticated = cript_eb.validate_autentication(
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
         )
-
+        self.assertEqual(autenticated, True)
         self.assertEqual(message, "EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP")
 
 
@@ -63,22 +63,33 @@ class TestSimpleCypherMethods(unittest.TestCase):
 
     def test_decrypt(self):
         """Responsável por testar a decriptação da chave simples"""
-        cript_eb = SimpleCypher(
+        decrypt_class_1 = SimpleCypher(
             {"char_a1": ("E", 2), "char_a2": ("J", 8)},
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP",
             "banana",
         )
-        mensagem_data = cript_eb.decrypt()
 
-        self.assertEqual(cript_eb.char_a1, "E")
-        self.assertEqual(cript_eb.char_a1_pos, 2)
+        self.assertDictEqual(
+            decrypt_class_1.decrypt(),
+            {
+                "status": "success",
+                "message": "bemvindoacriptografiadetranspzzzz".upper(),
+            },
+        )
 
-        self.assertEqual(cript_eb.char_a2, "J")
-        self.assertEqual(cript_eb.char_a2_pos, 8)
+        decrypt_class_2 = SimpleCypher(
+            {"char_a1": ("A", 2), "char_a2": ("R", 8)},
+            "DAITS FERCE CESES ISISO LZAFN ESZDE EPAIZ",
+            "betha",
+        )
 
-        self.assertEqual(cript_eb.message, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
-
-        self.assertEqual(mensagem_data, "bemvindoacriptografiadetranspzzzz".upper())
+        self.assertDictEqual(
+            decrypt_class_2.decrypt(),
+            {
+                "status": "success",
+                "message": "cidadeseficientespessoasfelizeszz".upper(),
+            },
+        )
 
 
 if __name__ == "__main__":
