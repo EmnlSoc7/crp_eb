@@ -157,14 +157,73 @@ class SimpleCypher(CriptographyEB):
     def decrypt(self):
         """Realiza a descriptografia da mensagem fornecida"""
 
+        ##### identificar o tamanho da mensagem sem aut
+        ##### Distribui-la em igual conforme o tamanho
+        # ----------------------------------------------------------- #
+        #       EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP             #
+        #          EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP                  #
+        #    usar um for contando cada passagem e gerando a lista     #
+        # em cada linha e quando atingir 33, encerra o processo e     #
+        #                       armazena                              #
+        #   output:   BEMVINDOACRIPTOGRAFIADETRANSPZZZZ               #
+        #
+        # Nomenclaturas descritivas:
+        # letra = char
+        # linha = line
+        # mensagem = message
+        # coluna = key_indexes[column_key]
+        # -----------------------------------------------------------
+
         message = self.validate_autentication(self.message)
+        key = self.convert_key(self.keyword)
+        key_indexes = self.enumerate_indexes(key)
 
-        # TODO: Descriptografar mensagem
-        # converter index da chave
-        # identificar quantidade de letras na mensagem
-        # distribuir mensagem por coluna
+        # -----------------------------------------------------------
+        # Descrição:
+        # Gera uma matriz com a quantidade de caracteres da mensagem
+        # e com maximo de colunas igual à chave criptografica.
+        # * Usada para estruturar a descriptografia coluna a coluna
+        # -----------------------------------------------------------
+        mat_temp = []
+        matrix = []
+        for i in range(len(message)):
+            mat_temp.append("")
+            if len(mat_temp) >= len(key) or i + 1 == len(message):
+                matrix.append(mat_temp)
+                mat_temp = []
 
-        return message
+        # -----------------------------------------------------------
+        # Descrição:
+        # Percorre toda a mensagem letra por letra, verifica
+        # a coluna de cada linha e preenche a primeira linha
+        # a estar com a coluna vazia.
+        # Interrompe o loop toda vez que preencher
+        # -----------------------------------------------------------
+        column_key = 0  # Contador para definir a coluna alvo
+
+        for _, char in enumerate(message):
+
+            # Verifica se ainda há posição disponivel na coluna
+            found = False
+            for lines_check in matrix:
+                if len(lines_check) >= (key_indexes[column_key] + 1):
+                    if "" == lines_check[key_indexes[column_key]]:
+                        found = True
+                        break
+
+            # Troca a coluna alvo se não localizar posição vazia
+            column_key = column_key + 1 if found is False else column_key
+
+            # preenche a primeira coluna da linha que estiver vazia
+            for _, line in enumerate(matrix):
+
+                if (line[key_indexes[column_key]]) == "":
+                    line[key_indexes[column_key]] = char
+                    break
+
+        # Converte a matriz em string
+        decrypted_message = self.lists_to_string(matrix).replace(" ", "")
+        return decrypted_message
 
 
 if __name__ == "__main__":
