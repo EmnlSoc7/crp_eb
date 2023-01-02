@@ -49,17 +49,15 @@ class TestSimpleCypherMethods(unittest.TestCase):
             "banana",
         )
         mensagem_data = cript_eb.encrypt()
-
-        self.assertEqual(cript_eb.char_a1, "E")
-        self.assertEqual(cript_eb.char_a1_pos, 2)
-
-        self.assertEqual(cript_eb.char_a2, "J")
-        self.assertEqual(cript_eb.char_a2_pos, 8)
-
-        # self.assertTrue((len(mensagem_data) + 2) % 5 == 0)  # Verifica se gerou multiplo de 5 na Mensagem
-
         self.assertEqual(mensagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
-        # Valida resultado
+
+        cript_eb = SimpleCypher(
+            {"char_a1": ("I", 4), "char_a2": ("G", 7)},
+            "Combate eminente a 12 horas em 21142003",
+            "metralhadora",
+        )
+        mensagem_data = cript_eb.encrypt()
+        self.assertEqual(mensagem_data, "A14IE OG0EE MR3OT 2EH0T 22CNM IABA1 NSME1")
 
     def test_decrypt(self):
         """Responsável por testar a decriptação da chave simples"""
@@ -68,7 +66,6 @@ class TestSimpleCypherMethods(unittest.TestCase):
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP",
             "banana",
         )
-
         self.assertDictEqual(
             decrypt_class_1.decrypt(),
             {
@@ -82,12 +79,37 @@ class TestSimpleCypherMethods(unittest.TestCase):
             "DAITS FERCE CESES ISISO LZAFN ESZDE EPAIZ",
             "betha",
         )
-
         self.assertDictEqual(
             decrypt_class_2.decrypt(),
             {
                 "status": "success",
                 "message": "cidadeseficientespessoasfelizeszz".upper(),
+            },
+        )
+
+        decrypt_class_3 = SimpleCypher(
+            {"char_a1": ("H", 4), "char_a2": ("R", 6)},
+            "RAOHS RRNDZ ASAIA EEZEN MSZRC LRAOL FIVIE SEACO ZTIPZ",
+            "compromisso",
+        )
+        self.assertDictEqual(
+            decrypt_class_3.decrypt(),
+            {
+                "status": "success",
+                "message": "realizaraTransferenciaomaiscedopossivelzzzz".upper(),
+            },
+        )
+
+        decrypt_class_4 = SimpleCypher(
+            {"char_a1": ("I", 4), "char_a2": ("G", 7)},
+            "A14IE OG0EE MR3OT 2EH0T 22CNM IABA1 NSME1",
+            "metralhadora",
+        )
+        self.assertDictEqual(
+            decrypt_class_4.decrypt(),
+            {
+                "status": "success",
+                "message": "COMBATEEMINENTEA12HORASEM21142003".upper(),
             },
         )
 
