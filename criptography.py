@@ -145,6 +145,10 @@ class SimpleCypher(CriptographyEB):
                 # separa em uma nova lista de acordo com o head e adiciona autenticação
                 for head, column in enumerate(line):
 
+                    if len(temp_mat) == 5:
+                        encrypted_message.append(temp_mat)
+                        temp_mat = []
+
                     if count_w == self.char_a1_pos:
                         temp_mat.append(self.char_a1)
                         count_w += 1
@@ -159,10 +163,6 @@ class SimpleCypher(CriptographyEB):
 
                         temp_mat.append(column)
                         count_w += 1
-
-                    if len(temp_mat) == 5:
-                        encrypted_message.append(temp_mat)
-                        temp_mat = []
 
         final_message = self.lists_to_string(encrypted_message)
         return final_message.strip().upper()
@@ -248,13 +248,4 @@ if __name__ == "__main__":
     # Criado testes unitários para testar o código de forma dinamica #
     #                Não utilizar Módulo diretamente                 #
     ##################################################################
-
-    testing = SimpleCypher(
-        {"char_a1": ("H", 4), "char_a2": ("R", 6)},
-        "Realizar a Transferencia o mais cedo possivel",
-        "compromisso",
-    )
-
-    encrypted = testing.encrypt()
-    print(encrypted)
     pass

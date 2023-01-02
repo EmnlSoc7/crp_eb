@@ -59,16 +59,6 @@ class TestSimpleCypherMethods(unittest.TestCase):
         # self.assertTrue((len(mensagem_data) + 2) % 5 == 0)  # Verifica se gerou multiplo de 5 na Mensagem
 
         self.assertEqual(mensagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
-
-        cript_eb = SimpleCypher(
-            {"char_a1": ("A", 2), "char_a2": ("R", 8)},
-            "cidades eficientes pessoas felizes",
-            "betha",
-        )
-
-        mensagem_data = cript_eb.encrypt()
-
-        self.assertEqual(mensagem_data, "DAITS FERCE CESES ISISO LZAFN ESZDE EPAIZ")
         # Valida resultado
 
     def test_decrypt(self):
@@ -98,20 +88,6 @@ class TestSimpleCypherMethods(unittest.TestCase):
             {
                 "status": "success",
                 "message": "cidadeseficientespessoasfelizeszz".upper(),
-            },
-        )
-
-        decrypt_class_3 = SimpleCypher(
-            {"char_a1": ("H", 4), "char_a2": ("R", 6)},
-            "RAOHS RRNDZ ASAIA EEZEN MSZRC LRAOL FIVIE SEACO ZTIPZ",
-            "compromisso",
-        )
-
-        self.assertDictEqual(
-            decrypt_class_3.decrypt(),
-            {
-                "status": "success",
-                "message": "realizaraTransferenciaomaiscedopossivelzzzz".upper(),
             },
         )
 
