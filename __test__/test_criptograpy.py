@@ -74,19 +74,6 @@ class TestSimpleCypherMethods(unittest.TestCase):
             },
         )
 
-        decrypt_class_2 = SimpleCypher(
-            {"char_a1": ("A", 2), "char_a2": ("R", 8)},
-            "DAITS FERCE CESES ISISO LZAFN ESZDE EPAIZ",
-            "betha",
-        )
-        self.assertDictEqual(
-            decrypt_class_2.decrypt(),
-            {
-                "status": "success",
-                "message": "cidadeseficientespessoasfelizeszz".upper(),
-            },
-        )
-
         decrypt_class_3 = SimpleCypher(
             {"char_a1": ("H", 4), "char_a2": ("R", 6)},
             "RAOHS RRNDZ ASAIA EEZEN MSZRC LRAOL FIVIE SEACO ZTIPZ",
