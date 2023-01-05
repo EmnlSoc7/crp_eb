@@ -1,43 +1,70 @@
 """Módulo principal de criptografia"""
 
+import sys
 from unidecode import unidecode
 
 
 class CriptographyEB:
     """Responsável pelo controle da criptografia"""
 
-    def __init__(self, char_au):
+    def __init__(self, char_au: dict[str, tuple[str, int], str, tuple[str, int]]):
         """Inicializacao da classe"""
 
         if char_au["char_a1"][1] == char_au["char_a2"][1]:
-            print("Autenticação com posição duplicada")
-            exit()
+            raise ValueError("Autenticação com posição duplicada!")
+
         self.char_a1 = char_au["char_a1"][0]
         self.char_a1_pos = int(char_au["char_a1"][1])
 
         self.char_a2 = char_au["char_a2"][0]
         self.char_a2_pos = int(char_au["char_a2"][1])
 
-    def convert_key(self, keyword):
-        """Converte Chave de Caractere para Ordem Numérica"""
+    def convert_key(self, keyword: str) -> list[int]:
+        """
+        Retorna uma lista numérica representando a posição
+        alfabética de cada caractere de uma palavra especifica.
 
-        alfa = "abcdefghijklmnopqrstuvwxyz"
+        Parametros:
+            keyword (str): Palavra única
+
+        Retorno:
+            keyword_order (list[int]): lista numérica da ordem alfabética
+        """
+
+        alphabet = "abcdefghijklmnopqrstuvwxyz"
 
         keyword = keyword.lower()
-        key = [0 for _ in range(len(keyword))]
-        key_char = keyword
+        keyword_order = [0 for _ in range(len(keyword))]  # lista de zeros
+        keyword_lower = keyword
 
         count = 1
-        for letter in alfa:
-            for index, char in enumerate(key_char):
+        for letter in alphabet:  # percorre o alfabeto
+            for index, char in enumerate(keyword_lower):  # percorre a palavra
                 if letter == char:
-                    key[index] = count
-                    count += 1
+                    keyword_order[index] = count  # substitui 0 pela posição
+                    count += 1  # aumenta o contador
 
-        return key
+        return keyword_order
 
     def sumarize_text(self, message: str, gap=2, base=5, ghost="z") -> str:
-        """Formata string e adiciona letras fantasmas equiparar ao multiplo da base"""
+        """
+        Remove os caracteres especiais e espaços de uma palavra especifica, e adiciona
+        letras fantasmas para atingir o multiplo comum da base caso necessário.
+
+        Parametros:
+            message (str): Mensagem desejada
+            gap (int): Quantidade de caracteres para considerar a mais no calculo,
+            util para inserir novos caracteres posteriormente.
+            base (int): Multiplo de referência para formatar a mensagem com caracteres
+            fantasmas.
+            ghost (str): caractere fantasma comum
+
+        Retorno:
+            message (str): Mensagem formatada com tamanho relativo aos parametros
+        """
+
+        if len(ghost) > 1:
+            raise ValueError("ghost não é um caractere único")
 
         message = unidecode("".join(e for e in message if e.isalnum()))
         qtd_ghost = (
@@ -48,18 +75,18 @@ class CriptographyEB:
 
         for _ in range(qtd_ghost):
             message = message + ghost
-        print(message)
         return message
 
     def lists_to_string(self, list_message):
         """Separa lista de listas em forma de String"""
+
         message = ""
         for lists in list_message:
             for head, char in enumerate(lists):
                 if head == 0:
                     message += " "
                 message += char
-
+        print(message)
         return message
 
     def generate_matrix(self, message: str, key: list[int]) -> list:
@@ -117,15 +144,45 @@ class CriptographyEB:
 
 
 class SimpleCypher(CriptographyEB):
-    """Classe de criptografia de chave simples"""
+    """
+    Módulo de criptografia de chave simples (chave unica).
 
-    def __init__(self, char_au, message: str, keyword: str):
+    Métodos:
+        encrypt(): Método de encryptação.
+        decrypt(): Método de decriptação.
+
+    Parametros:
+        char_au (dict: tuple(str, int)): Caracteres de autenticação.
+        message (str): Mensagem em claro.
+
+    Retorno:
+        tuple(message, bool): Tupla com a mensagem e o status da
+        criptografia realizada.
+    """
+
+    def __init__(
+        self,
+        char_au: dict[str, tuple[str, int], str, tuple[str, int]],
+        message: str,
+        keyword: str,
+    ):
         super().__init__(char_au)
         self.message = message
         self.keyword = keyword
 
-    def encrypt(self):
-        """Realiza a criptografia da mensagem fornecida"""
+    def encrypt(self) -> tuple[str, bool]:
+        """
+        Faz a encriptação da mensagem fornecida em
+        self.message, usando a as chaves char_au, com a senha
+        em self.keyword.
+
+        Parametros:
+            message (str): Mensagem em claro.
+
+        Retorno:
+            tuple(message, bool): Tupla com a mensagem e o status da
+            criptografia realizada.
+        """
 
         # Formata mensagem para mult de 5 + 2 au
         message = self.sumarize_text(self.message)
@@ -165,13 +222,13 @@ class SimpleCypher(CriptographyEB):
                         temp_mat = []
 
         final_message = self.lists_to_string(encrypted_message)
-        return final_message.strip().upper()
+        return (final_message.strip().upper(), True)
 
     def decrypt(self) -> dict[str, str]:
-        """Realiza a descriptografia da mensagem fornecida"""
+        """
+        Realiza a descriptografia da mensagem fornecida
+        """
 
-        ##### identificar o tamanho da mensagem sem aut
-        ##### Distribui-la em igual conforme o tamanho
         # ----------------------------------------------------------- #
         #       EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP             #
         #          EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP                  #

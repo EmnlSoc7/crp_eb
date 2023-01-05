@@ -1,8 +1,7 @@
 """Testar Criptografia"""
 
 import unittest
-from crp_eb.criptography import CriptographyEB
-from crp_eb.criptography import SimpleCypher
+from crp_eb.criptography import CriptographyEB, SimpleCypher
 
 
 class TestCriptographyEBMethods(unittest.TestCase):
@@ -49,7 +48,7 @@ class TestSimpleCypherMethods(unittest.TestCase):
             "banana",
         )
         mensagem_data = cript_eb.encrypt()
-        self.assertEqual(mensagem_data, "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
+        self.assertEqual(mensagem_data[0], "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
 
         cript_eb = SimpleCypher(
             {"char_a1": ("I", 4), "char_a2": ("G", 7)},
@@ -57,7 +56,7 @@ class TestSimpleCypherMethods(unittest.TestCase):
             "metralhadora",
         )
         mensagem_data = cript_eb.encrypt()
-        self.assertEqual(mensagem_data, "A14IE OG0EE MR3OT 2EH0T 22CNM IABA1 NSME1")
+        self.assertEqual(mensagem_data[0], "A14IE OG0EE MR3OT 2EH0T 22CNM IABA1 NSME1")
 
     def test_decrypt(self):
         """Responsável por testar a decriptação da chave simples"""

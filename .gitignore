@@ -13,3 +13,5 @@ coverage.xml
 .pytest_cache/
 __pycache__/
 cover/
+hard_testing.py
+venv/
