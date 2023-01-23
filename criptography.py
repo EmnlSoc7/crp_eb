@@ -1,6 +1,5 @@
 """Módulo principal de criptografia"""
 
-import sys
 from unidecode import unidecode
 
 
