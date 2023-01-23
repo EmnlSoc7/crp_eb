@@ -47,8 +47,8 @@ class CoreCriptography:
 
     def prepare_text(self, message: str, gap=2, base=5, ghost="z") -> str:
         """
-        Remove os caracteres especiais e espaços de uma palavra especifica, e adiciona
-        letras fantasmas para atingir o multiplo comum da base caso necessário.
+        Prepara a mensagem, adicionando as letras mortas ao final, removendo
+        os caracteres especiais e espaços.
 
         Parametros:
             message (str): Mensagem desejada
@@ -59,7 +59,7 @@ class CoreCriptography:
             ghost (str): caractere fantasma comum
 
         Retorno:
-            message (str): Mensagem formatada com tamanho relativo aos parametros
+            message (str): Mensagem no formatada de acordo com parametros
         """
 
         if len(ghost) > 1:
@@ -85,18 +85,19 @@ class CoreCriptography:
                 if head == 0:
                     message += " "
                 message += char
-        print(message)
+
         return message
 
     def generate_matrix(self, message: str, key: list[int]) -> list:
         """Cria uma matriz com maximo de colunas de uma chave especifica"""
 
-        matrix = []
-        temp_mat = []
+        matrix = []  # matriz final
+        temp_mat = []  # matriz temporaria
 
         for head, char in enumerate(message):
             temp_mat.append(char)
 
+            # Registra linha na matriz final caso chegue ao tamanho em colunas
             if len(temp_mat) == max(key) or head + 1 == len(message):
                 matrix.append(temp_mat)
                 temp_mat = []
@@ -109,10 +110,7 @@ class CoreCriptography:
 
     def autenticate_message(self, message: str) -> tuple[str, bool]:
         """
-        Faz a autenticação dos caracteres na mensagem e retorna
-        uma tupla com a mensagem formatada sem os caracteres especificos
-        e o status booleano da autenticação True ou retorna a propria
-        mensagem e o status booleano False.
+        Realiza a autenticação das duas letras nas posições especificas
 
         Parametros:
             message (str): Mensagem criptografada previamente.
