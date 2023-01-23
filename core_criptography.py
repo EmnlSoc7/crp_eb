@@ -30,7 +30,7 @@ class CoreCriptography:
             keyword_order (list[int]): lista numérica da ordem alfabética
         """
 
-        alphabet = "abcdefghijklmnopqrstuvwxyz"
+        alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
 
         keyword = keyword.lower()
         keyword_order = [0 for _ in range(len(keyword))]  # lista de zeros
