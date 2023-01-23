@@ -28,3 +28,11 @@ class PairCypher(CoreCriptography):
 
         final_message = ""
         return (final_message.strip().upper(), True)
+
+
+if __name__ == "__main__":
+    ##################################################################
+    # Criado testes unitários para testar o código de forma dinamica #
+    #                Não utilizar Módulo diretamente                 #
+    ##################################################################
+    pass
