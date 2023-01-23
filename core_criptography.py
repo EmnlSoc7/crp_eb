@@ -45,7 +45,7 @@ class CoreCriptography:
 
         return keyword_order
 
-    def sumarize_text(self, message: str, gap=2, base=5, ghost="z") -> str:
+    def prepare_text(self, message: str, gap=2, base=5, ghost="z") -> str:
         """
         Remove os caracteres especiais e espaços de uma palavra especifica, e adiciona
         letras fantasmas para atingir o multiplo comum da base caso necessário.

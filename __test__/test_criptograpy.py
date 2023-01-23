@@ -21,7 +21,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2_pos, 8)
 
         key = cript_eb.convert_key("banana")
-        message = cript_eb.sumarize_text("bem vindo à criptografia de transp")
+        message = cript_eb.prepare_text("bem vindo à criptografia de transp")
 
         self.assertEqual(int(len(key)), int(max(key)))  # valida tamanho da chave
         self.assertListEqual(key, [4, 1, 5, 2, 6, 3])  # valida ordem da chave

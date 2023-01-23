@@ -45,7 +45,7 @@ class SimpleCypher(CoreCriptography):
         """
 
         # Formata mensagem para mult de 5 + 2 au
-        message = self.sumarize_text(self.message)
+        message = self.prepare_text(self.message)
         # pega a ordem numérica da chave criptografica
         key = self.convert_key(self.keyword)
         # gera matriz da chave
