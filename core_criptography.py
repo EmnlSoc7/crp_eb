@@ -140,3 +140,11 @@ class CoreCriptography:
             )
             return (message_autenticated, True)
         return (message, False)
+
+
+if __name__ == "__main__":
+    ##################################################################
+    # Criado testes unitários para testar o código de forma dinamica #
+    #                Não utilizar Módulo diretamente                 #
+    ##################################################################
+    pass
