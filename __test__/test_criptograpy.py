@@ -1,7 +1,9 @@
 """Testar Criptografia"""
 
 import unittest
-from crp_eb.criptography import CriptographyEB, SimpleCypher
+
+from core_criptography import CoreCriptography
+from simple_cypher import SimpleCypher
 
 
 class TestCriptographyEBMethods(unittest.TestCase):
@@ -10,7 +12,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
     def test_convert_key(self):
         """Responsável por testar a conversão da chave para numérica"""
 
-        cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
+        cript_eb = CoreCriptography({"char_a1": ("E", 2), "char_a2": ("J", 8)})
 
         self.assertEqual(cript_eb.char_a1, "E")
         self.assertEqual(cript_eb.char_a1_pos, 2)
@@ -28,7 +30,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
     def test_validate_autentication(self):
         """Responsável por validar a autenticação"""
 
-        cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
+        cript_eb = CoreCriptography({"char_a1": ("E", 2), "char_a2": ("J", 8)})
         message, autenticated = cript_eb.validate_autentication(
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
         )
