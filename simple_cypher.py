@@ -32,12 +32,8 @@ class SimpleCypher(CoreCriptography):
 
     def encrypt(self) -> tuple[str, bool]:
         """
-        Faz a encriptação da mensagem fornecida em
-        self.message, usando a as chaves char_au, com a senha
-        em self.keyword.
-
-        Parametros:
-            message (str): Mensagem em claro.
+        Realiza a cirptografia da mensagem com a senha e letras
+        de autenticação fornecidas
 
         Retorno:
             tuple(message, bool): Tupla com a mensagem e o status da
@@ -88,21 +84,6 @@ class SimpleCypher(CoreCriptography):
         """
         Realiza a descriptografia da mensagem fornecida
         """
-
-        # ----------------------------------------------------------- #
-        #       EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP             #
-        #          EOTIAZVCGDSNIATZBDPFRZMAOANZIRREP                  #
-        #    usar um for contando cada passagem e gerando a lista     #
-        # em cada linha e quando atingir 33, encerra o processo e     #
-        #                       armazena                              #
-        #   output:   BEMVINDOACRIPTOGRAFIADETRANSPZZZZ               #
-        #
-        # Nomenclaturas descritivas:
-        # letra = char
-        # linha = line
-        # mensagem = message
-        # coluna = key_indexes[column_key]
-        # -----------------------------------------------------------
 
         message, validation = self.autenticate_message(self.message)
 
