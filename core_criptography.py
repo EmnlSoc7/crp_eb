@@ -77,7 +77,7 @@ class CoreCriptography:
         return message
 
     def lists_to_string(self, list_message):
-        """Separa lista de listas em forma de String"""
+        """Transforma as listas de uma lista, em palavras individuais"""
 
         message = ""
         for lists in list_message:
@@ -107,7 +107,7 @@ class CoreCriptography:
         """Retorna os indices em ordem crescente de uma lista de inteiros"""
         return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 
-    def validate_autentication(self, message: str) -> tuple[str, bool]:
+    def autenticate_message(self, message: str) -> tuple[str, bool]:
         """
         Faz a autenticação dos caracteres na mensagem e retorna
         uma tupla com a mensagem formatada sem os caracteres especificos

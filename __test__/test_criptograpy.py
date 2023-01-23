@@ -31,7 +31,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
         """Responsável por validar a autenticação"""
 
         cript_eb = CoreCriptography({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-        message, autenticated = cript_eb.validate_autentication(
+        message, autenticated = cript_eb.autenticate_message(
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
         )
         self.assertEqual(autenticated, True)

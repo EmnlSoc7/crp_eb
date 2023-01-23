@@ -104,7 +104,7 @@ class SimpleCypher(CoreCriptography):
         # coluna = key_indexes[column_key]
         # -----------------------------------------------------------
 
-        message, validation = self.validate_autentication(self.message)
+        message, validation = self.autenticate_message(self.message)
 
         if validation is False:
             return {"status": "error", "message": "Autenticação Invalida"}
