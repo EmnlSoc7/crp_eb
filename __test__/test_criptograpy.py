@@ -1,7 +1,9 @@
 """Testar Criptografia"""
 
 import unittest
-from crp_eb.criptography import CriptographyEB, SimpleCypher
+
+from core_criptography import CoreCriptography
+from simple_cypher import SimpleCypher
 
 
 class TestCriptographyEBMethods(unittest.TestCase):
@@ -10,7 +12,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
     def test_convert_key(self):
         """Responsável por testar a conversão da chave para numérica"""
 
-        cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
+        cript_eb = CoreCriptography({"char_a1": ("E", 2), "char_a2": ("J", 8)})
 
         self.assertEqual(cript_eb.char_a1, "E")
         self.assertEqual(cript_eb.char_a1_pos, 2)
@@ -19,7 +21,7 @@ class TestCriptographyEBMethods(unittest.TestCase):
         self.assertEqual(cript_eb.char_a2_pos, 8)
 
         key = cript_eb.convert_key("banana")
-        message = cript_eb.sumarize_text("bem vindo à criptografia de transp")
+        message = cript_eb.prepare_text("bem vindo à criptografia de transp")
 
         self.assertEqual(int(len(key)), int(max(key)))  # valida tamanho da chave
         self.assertListEqual(key, [4, 1, 5, 2, 6, 3])  # valida ordem da chave
@@ -28,8 +30,8 @@ class TestCriptographyEBMethods(unittest.TestCase):
     def test_validate_autentication(self):
         """Responsável por validar a autenticação"""
 
-        cript_eb = CriptographyEB({"char_a1": ("E", 2), "char_a2": ("J", 8)})
-        message, autenticated = cript_eb.validate_autentication(
+        cript_eb = CoreCriptography({"char_a1": ("E", 2), "char_a2": ("J", 8)})
+        message, autenticated = cript_eb.autenticate_message(
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP"
         )
         self.assertEqual(autenticated, True)
