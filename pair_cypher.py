@@ -17,18 +17,30 @@ class PairCypher(CoreCriptography):
         self.first_keyword = str(first_keyword)
         self.second_keyword = str(second_keyword)
 
-    def encrypt(self):
+    def matrix_refactory_by_index(self, matrix: list, key_indexes: list):
+        """Realiza a refatoração de uma matriz de acordo com a lista de headers fornecidas
+
+        Args:
+            matrix (list): Matriz inicial
+            key_indexes (list): lista numérica da ordem dos indices
+
+        Returns:
+            list: Matriz Inicial formatada de acordo com a ordem dos indices
         """
-        Realiza a criptografia da mensagem inicializada
-        Refência de execução
-        limite maximo de caracteres definido pela area da chave 1
-        e chave 2.
+        line_encrypted_matrix = []  # matriz na ordem da chave secundária
+        for head_index in key_indexes:
+            if len(matrix) - 1 >= head_index:
+                line_encrypted_matrix.append(matrix[head_index])
 
-        8 * 8 = 64 (60)
+        return line_encrypted_matrix
 
-        A cada coluna é percorrido todas as linhas na sequência,
-        definida pelo total de caracteres da mensagem
-        Necessário gerar Matriz de acordo com o tamanho da mensagem
+    def encrypt(self) -> tuple[str, bool]:
+        """
+        Realiza a criptografia da mensagem com as chaves e letras
+        de autenticação fornecidas
+
+        Returns:
+            tuple (str, bool): Mensagem de retorno, Sucesso/Falha
         """
         message = self.prepare_text(self.message)
 
@@ -37,27 +49,24 @@ class PairCypher(CoreCriptography):
 
         # Verifica se a mensagem é maior que a quantidade de caracteres
         if len(message) >= (len(first_key) * len(second_key)):
-            return ("FAILED", True)
+            return ("FAILED", False)
 
         matrix = self.generate_matrix(message, first_key)
-
-        print(matrix)
 
         first_key_indexes = self.enumerate_indexes(first_key)
         second_key_indexes = self.enumerate_indexes(second_key)
 
         temp_mat = []  # responsável pelas listas criptografadas
-        line_encrypted_matrix = []
         encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
 
-        for head_index in second_key_indexes:
-            if len(matrix) - 1 >= head_index:
-                line_encrypted_matrix.append(matrix[head_index])
+        line_refactored_matrix = self.matrix_refactory_by_index(
+            matrix, second_key_indexes
+        )
 
         for i in first_key_indexes:  # percorre os cabeçalhos
 
-            for line in line_encrypted_matrix:  # lê cada linha da estrutura gerada
+            for line in line_refactored_matrix:  # lê cada linha da estrutura gerada
                 # separa em uma nova lista de acordo com o head e adiciona autenticação
                 for head, column in enumerate(line):
 
@@ -80,8 +89,8 @@ class PairCypher(CoreCriptography):
                         encrypted_message.append(temp_mat)
                         temp_mat = []
 
-        final_message = self.lists_to_string(encrypted_message)
-        return (final_message.strip().upper(), True)
+        encrypted_message = self.lists_to_string(encrypted_message)
+        return (encrypted_message.strip().upper(), True)
 
     def decrypt(self):
         """Realiza a descriptografia da mensagem inicializada"""
