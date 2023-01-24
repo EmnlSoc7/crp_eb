@@ -10,6 +10,7 @@ class TestPairCriptographyMethods(unittest.TestCase):
     def test_initialization(self):
         """Realiza o teste unitário da inicialização do metodo principal"""
 
+        # maximo de 42 caracteres
         cript = PairCypher(
             {"char_a1": ("M", 2), "char_a2": ("D", 8)},
             message="solicito envio de armamento tatico em 39201",

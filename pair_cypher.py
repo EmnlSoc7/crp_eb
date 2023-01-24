@@ -14,11 +14,22 @@ class PairCypher(CoreCriptography):
     ):
         super().__init__(char_au)
         self.message = message
-        self.fist_keyword = str(first_keyword)
+        self.first_keyword = str(first_keyword)
         self.second_keyword = str(second_keyword)
 
     def encrypt(self):
-        """Realiza a criptografia da mensagem inicializada"""
+        """
+        Realiza a criptografia da mensagem inicializada
+        Refência de execução
+        limite maximo de caracteres definido pela area da chave 1
+        e chave 2.
+
+        8 * 8 = 64 (60)
+
+        A cada coluna é percorrido todas as linhas na sequência,
+        definida pelo total de caracteres da mensagem
+        Necessário gerar Matriz de acordo com o tamanho da mensagem
+        """
 
         final_message = ""
         return (final_message.strip().upper(), True)
