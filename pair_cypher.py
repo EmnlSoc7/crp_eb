@@ -28,11 +28,14 @@ class PairCypher(CoreCriptography):
             list: Matriz Inicial formatada de acordo com a ordem dos indices
         """
         line_encrypted_matrix = []  # matriz na ordem da chave secundária
+        reverse_key = []
         for head_index in key_indexes:
-            if len(matrix) - 1 >= head_index:
-                line_encrypted_matrix.append(matrix[head_index])
+            if len(matrix) > head_index:
 
-        return line_encrypted_matrix
+                line_encrypted_matrix.append(matrix[head_index])
+                reverse_key.append(head_index)
+
+        return (reverse_key, line_encrypted_matrix)
 
     def encrypt(self) -> tuple[str, bool]:
         """
@@ -60,7 +63,7 @@ class PairCypher(CoreCriptography):
         encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
 
-        line_refactored_matrix = self.matrix_refactory_by_index(
+        _, line_refactored_matrix = self.matrix_refactory_by_index(
             matrix, second_key_indexes
         )
 
@@ -119,6 +122,9 @@ class PairCypher(CoreCriptography):
                 matrix.append(mat_temp)
                 mat_temp = []
 
+        reverse_key, matrix_refactored = self.matrix_refactory_by_index(
+            matrix, second_key_indexes
+        )
         # -----------------------------------------------------------
         # Descrição:
         # Percorre toda a mensagem letra por letra, verifica
@@ -132,7 +138,7 @@ class PairCypher(CoreCriptography):
 
             # Verifica se ainda há posição disponivel na coluna
             found = False
-            for lines_check in matrix:
+            for lines_check in matrix_refactored:
                 if len(lines_check) >= (first_key_indexes[column_key] + 1):
                     if "" == lines_check[first_key_indexes[column_key]]:
                         found = True
@@ -142,18 +148,19 @@ class PairCypher(CoreCriptography):
             column_key = column_key + 1 if found is False else column_key
 
             # preenche a primeira coluna da linha que estiver vazia
-            for _, line in enumerate(matrix):
+            for _, line in enumerate(matrix_refactored):
 
-                if (line[first_key_indexes[column_key]]) == "":
-                    line[first_key_indexes[column_key]] = char
-                    break
+                if len(line) > first_key_indexes[column_key]:
+                    if (line[first_key_indexes[column_key]]) == "":
+                        line[first_key_indexes[column_key]] = char
+                        break
 
-            matrix_refactored = self.matrix_refactory_by_index(
-                matrix, second_key_indexes
-            )
+        _, final_decript = self.matrix_refactory_by_index(
+            matrix_refactored, self.enumerate_indexes(reverse_key)
+        )
 
         # Converte a matriz em string
-        decrypted_message = self.lists_to_string(matrix_refactored).replace(" ", "")
+        decrypted_message = self.lists_to_string(final_decript).replace(" ", "")
         return {"status": "success", "message": decrypted_message}
 
 

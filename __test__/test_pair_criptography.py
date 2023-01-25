@@ -23,7 +23,7 @@ class TestPairCriptographyMethods(unittest.TestCase):
         self.assertEqual(cript.char_a2, "D")
         self.assertEqual(cript.char_a2_pos, 8)
 
-    def test_encypt(self):
+    def test_encrypt(self):
         """Realiza o teste unitário da criptografia"""
 
         pair_cypher = PairCypher(
@@ -53,6 +53,41 @@ class TestPairCriptographyMethods(unittest.TestCase):
             message="confirmada tentativa terrorista pt civis simpaticos nossa causa",
             first_keyword=1367524,
             second_keyword=31745682,
+        )
+
+    def test_decript(self):
+        """Realiza o teste unitário da descriptografia"""
+
+        # Primeiro teste, sucesso
+        pair_cypher = PairCypher(
+            {"char_a1": ("M", 2), "char_a2": ("D", 8)},
+            message="GMETA IDDTC ANASN AZILA PISVD OOIAL",
+            first_keyword=1367524,
+            second_keyword=31745682,
+        )
+
+        self.assertDictEqual(
+            pair_cypher.decrypt(),
+            {
+                "status": "success",
+                "message": "enviadagasolinasolicitadaptz".upper(),
+            },
+        )
+
+        # Segundo teste, sucesso
+        pair_cypher = PairCypher(
+            {"char_a1": ("M", 2), "char_a2": ("D", 8)},
+            message="OMEUI TADUI OSADX EDZCP TCPQC CDESE EAAZA ORNDO",
+            first_keyword=1367524,
+            second_keyword=31745682,
+        )
+
+        self.assertDictEqual(
+            pair_cypher.decrypt(),
+            {
+                "status": "success",
+                "message": "exercitodeocupacaosaqueandocidadesptzz".upper(),
+            },
         )
 
 
