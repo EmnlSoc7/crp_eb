@@ -88,14 +88,17 @@ class CoreCriptography:
 
         return message
 
-    def generate_matrix(self, message: str, key: list[int]) -> list:
+    def generate_matrix(self, message: str, key: list[int], blank=False) -> list:
         """Cria uma matriz com maximo de colunas de uma chave especifica"""
 
         matrix = []  # matriz final
         temp_mat = []  # matriz temporaria
 
         for head, char in enumerate(message):
-            temp_mat.append(char)
+            if blank:
+                temp_mat.append("")
+            else:
+                temp_mat.append(char)
 
             # Registra linha na matriz final caso chegue ao tamanho em colunas
             if len(temp_mat) == max(key) or head + 1 == len(message):
