@@ -95,8 +95,66 @@ class PairCypher(CoreCriptography):
     def decrypt(self):
         """Realiza a descriptografia da mensagem inicializada"""
 
-        final_message = ""
-        return (final_message.strip().upper(), True)
+        message, validation = self.autenticate_message(self.message)
+
+        if validation is False:
+            return {"status": "error", "message": "Autenticação Invalida"}
+
+        first_key = self.convert_key(self.first_keyword)
+        second_key = self.convert_key(self.second_keyword)
+        first_key_indexes = self.enumerate_indexes(first_key)
+        second_key_indexes = self.enumerate_indexes(second_key)
+
+        # -----------------------------------------------------------
+        # Descrição:
+        # Gera uma matriz com a quantidade de caracteres da mensagem
+        # e com maximo de colunas igual à chave criptografica.
+        # * Usada para estruturar a descriptografia coluna a coluna
+        # -----------------------------------------------------------
+        mat_temp = []
+        matrix = []
+        for i in range(len(message)):
+            mat_temp.append("")
+            if len(mat_temp) >= len(first_key) or i + 1 == len(message):
+                matrix.append(mat_temp)
+                mat_temp = []
+
+        # -----------------------------------------------------------
+        # Descrição:
+        # Percorre toda a mensagem letra por letra, verifica
+        # a coluna de cada linha e preenche a primeira linha
+        # a estar com a coluna vazia.
+        # Interrompe o loop toda vez que preencher
+        # -----------------------------------------------------------
+        column_key = 0  # Contador para definir a coluna alvo
+
+        for _, char in enumerate(message):
+
+            # Verifica se ainda há posição disponivel na coluna
+            found = False
+            for lines_check in matrix:
+                if len(lines_check) >= (first_key_indexes[column_key] + 1):
+                    if "" == lines_check[first_key_indexes[column_key]]:
+                        found = True
+                        break
+
+            # Troca a coluna alvo se não localizar posição vazia
+            column_key = column_key + 1 if found is False else column_key
+
+            # preenche a primeira coluna da linha que estiver vazia
+            for _, line in enumerate(matrix):
+
+                if (line[first_key_indexes[column_key]]) == "":
+                    line[first_key_indexes[column_key]] = char
+                    break
+
+            matrix_refactored = self.matrix_refactory_by_index(
+                matrix, second_key_indexes
+            )
+
+        # Converte a matriz em string
+        decrypted_message = self.lists_to_string(matrix_refactored).replace(" ", "")
+        return {"status": "success", "message": decrypted_message}
 
 
 if __name__ == "__main__":
