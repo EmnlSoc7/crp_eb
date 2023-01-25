@@ -89,6 +89,7 @@ class PairCypher(CoreCriptography):
                 # separa em uma nova lista de acordo com o head e adiciona autenticação
                 for head, column in enumerate(line):
 
+                    # Adiciona autenticações
                     if count_w == self.char_a1_pos:
                         temp_mat.append(self.char_a1)
                         count_w += 1
@@ -96,16 +97,17 @@ class PairCypher(CoreCriptography):
                         temp_mat.append(self.char_a2)
                         count_w += 1
 
+                    # se é a coluna alvo
                     if head == i:
                         if len(temp_mat) == 5:
-                            encrypted_message.append(temp_mat)
+                            encrypted_message.append(temp_mat)  # adiciona a linha
                             temp_mat = []
 
-                        temp_mat.append(column)
+                        temp_mat.append(column)  # adiciona caractere
                         count_w += 1
 
                     if len(temp_mat) == 5:
-                        encrypted_message.append(temp_mat)
+                        encrypted_message.append(temp_mat)  # adiciona linha
                         temp_mat = []
 
         encrypted_message = self.lists_to_string(encrypted_message)
