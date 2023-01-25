@@ -179,12 +179,12 @@ class PairCypher(CoreCriptography):
                         line[first_key_indexes[column_key]] = char
                         break
 
-        _, final_decript = self.matrix_refactory_by_index(
+        _, decrypted_message = self.matrix_refactory_by_index(
             matrix_refactored, self.enumerate_indexes(reverse_key)
         )
 
         # Converte a matriz em string
-        decrypted_message = self.lists_to_string(final_decript).replace(" ", "")
+        decrypted_message = self.lists_to_string(decrypted_message).replace(" ", "")
         return {"status": "success", "message": decrypted_message}
 
 
