@@ -1,4 +1,4 @@
-"""Módulo principal de criptografia"""
+"""Módulo de criptografia com chave simples"""
 
 from typing import Union
 from core_criptography import CoreCriptography
