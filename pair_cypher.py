@@ -43,7 +43,7 @@ class PairCypher(CoreCriptography):
         de autenticação fornecidas
 
         Returns:
-            tuple (str, bool): Mensagem de retorno, Sucesso/Falha
+            dict ("status": str, "message": str): Status da operação, mensagem de retorno
         """
         message = self.prepare_text(self.message)
 
@@ -103,7 +103,11 @@ class PairCypher(CoreCriptography):
         }
 
     def decrypt(self) -> dict["status":str, "message":str]:
-        """Realiza a descriptografia da mensagem inicializada"""
+        """Realiza a descriptografia da mensagem inicializada
+
+        Returns:
+            dict ("status": str, "message": str): Status da operação, mensagem de retorno
+        """
 
         message, validation = self.autenticate_message(self.message)
 
