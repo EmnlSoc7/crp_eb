@@ -5,6 +5,19 @@ from core_criptography import CoreCriptography
 
 
 class PairCypher(CoreCriptography):
+    """Módulo de criptografia de chave dupla.
+
+    Métodos:
+        encrypt(): Método de encryptação
+        decrypt(): Método de decriptação
+
+    Parametros:
+        char_au (dict: tuple(str, int)): Caracteres de autenticação
+        message (str): Mensagem em claro
+        first_keyword: Primeira chave
+        second_keyword: Segunda chave
+    """
+
     def __init__(
         self,
         char_au: dict[str, tuple[str, int], str, tuple[str, int]],
@@ -25,7 +38,7 @@ class PairCypher(CoreCriptography):
             key_indexes (list): lista numérica da ordem dos indices
 
         Returns:
-            list: Matriz Inicial formatada de acordo com a ordem dos indices
+            tuple (list, list): Chave Reversa, Matriz Inicial formatada
         """
         line_encrypted_matrix = []  # matriz na ordem da chave secundária
         reverse_key = []
