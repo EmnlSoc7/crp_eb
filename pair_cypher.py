@@ -122,9 +122,9 @@ class PairCypher(CoreCriptography):
             dict ("status": str, "message": str): Status da operação, mensagem de retorno
         """
 
-        message, validation = self.autenticate_message(self.message)
+        autenticated_message = self.autenticate_message(self.message)
 
-        if validation is False:
+        if autenticated_message[1] is False:
             return {"status": "fail", "message": "Autenticação Invalida"}
 
         first_key = self.convert_key(self.first_keyword)
@@ -138,13 +138,7 @@ class PairCypher(CoreCriptography):
         # e com maximo de colunas igual à chave criptografica.
         # * Usada para estruturar a descriptografia coluna a coluna
         # -----------------------------------------------------------
-        mat_temp = []
-        matrix = []
-        for i in range(len(message)):
-            mat_temp.append("")
-            if len(mat_temp) >= len(first_key) or i + 1 == len(message):
-                matrix.append(mat_temp)
-                mat_temp = []
+        matrix = self.generate_matrix(autenticated_message[0], first_key, blank=True)
 
         reverse_key, matrix_refactored = self.matrix_refactory_by_index(
             matrix, second_key_indexes
@@ -158,7 +152,7 @@ class PairCypher(CoreCriptography):
         # -----------------------------------------------------------
         column_key = 0  # Contador para definir a coluna alvo
 
-        for _, char in enumerate(message):
+        for _, char in enumerate(autenticated_message[0]):
 
             # Verifica se ainda há posição disponivel na coluna
             found = False
