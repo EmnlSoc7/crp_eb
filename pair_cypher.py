@@ -37,7 +37,7 @@ class PairCypher(CoreCriptography):
 
         return (reverse_key, line_encrypted_matrix)
 
-    def encrypt(self) -> tuple[str, bool]:
+    def encrypt(self) -> dict["status":str, "message":str]:
         """
         Realiza a criptografia da mensagem com as chaves e letras
         de autenticação fornecidas
@@ -52,7 +52,10 @@ class PairCypher(CoreCriptography):
 
         # Verifica se a mensagem é maior que a quantidade de caracteres
         if len(message) >= (len(first_key) * len(second_key)):
-            return ("FAILED", False)
+            return {
+                "status": "fail",
+                "message": "Mensagem maior que a matriz das chaves",
+            }
 
         matrix = self.generate_matrix(message, first_key)
 
@@ -93,15 +96,19 @@ class PairCypher(CoreCriptography):
                         temp_mat = []
 
         encrypted_message = self.lists_to_string(encrypted_message)
-        return (encrypted_message.strip().upper(), True)
 
-    def decrypt(self):
+        return {
+            "status": "success",
+            "message": encrypted_message.strip().upper(),
+        }
+
+    def decrypt(self) -> dict["status":str, "message":str]:
         """Realiza a descriptografia da mensagem inicializada"""
 
         message, validation = self.autenticate_message(self.message)
 
         if validation is False:
-            return {"status": "error", "message": "Autenticação Invalida"}
+            return {"status": "fail", "message": "Autenticação Invalida"}
 
         first_key = self.convert_key(self.first_keyword)
         second_key = self.convert_key(self.second_keyword)
