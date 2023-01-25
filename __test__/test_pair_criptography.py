@@ -32,9 +32,13 @@ class TestPairCriptographyMethods(unittest.TestCase):
             first_keyword=1367524,
             second_keyword=31745682,
         )
-
-        message_data = pair_cypher.encrypt()
-        self.assertEqual(message_data[0], "GMETA IDDTC ANASN AZILA PISVD OOIAL")
+        self.assertDictEqual(
+            pair_cypher.encrypt(),
+            {
+                "status": "success",
+                "message": "GMETA IDDTC ANASN AZILA PISVD OOIAL",
+            },
+        )
 
         pair_cypher = PairCypher(
             {"char_a1": ("M", 2), "char_a2": ("D", 8)},
@@ -42,17 +46,27 @@ class TestPairCriptographyMethods(unittest.TestCase):
             first_keyword=1367524,
             second_keyword=31745682,
         )
-
-        message_data = pair_cypher.encrypt()
-        self.assertEqual(
-            message_data[0], "OMEUI TADUI OSADX EDZCP TCPQC CDESE EAAZA ORNDO"
+        self.assertDictEqual(
+            pair_cypher.encrypt(),
+            {
+                "status": "success",
+                "message": "OMEUI TADUI OSADX EDZCP TCPQC CDESE EAAZA ORNDO",
+            },
         )
 
         pair_cypher = PairCypher(
             {"char_a1": ("M", 2), "char_a2": ("D", 8)},
             message="confirmada tentativa terrorista pt civis simpaticos nossa causa",
-            first_keyword=1367524,
-            second_keyword=31745682,
+            first_keyword=12345,
+            second_keyword=65423,
+        )
+
+        self.assertDictEqual(
+            pair_cypher.encrypt(),
+            {
+                "status": "fail",
+                "message": "Mensagem maior que a matriz das chaves",
+            },
         )
 
     def test_decript(self):
@@ -87,6 +101,22 @@ class TestPairCriptographyMethods(unittest.TestCase):
             {
                 "status": "success",
                 "message": "exercitodeocupacaosaqueandocidadesptzz".upper(),
+            },
+        )
+
+        # Autenticação falhando
+        pair_cypher = PairCypher(
+            {"char_a1": ("M", 5), "char_a2": ("D", 8)},
+            message="OMEUI TADUI OSADX EDZCP TCPQC CDESE EAAZA ORNDO",
+            first_keyword=1367524,
+            second_keyword=31745682,
+        )
+
+        self.assertDictEqual(
+            pair_cypher.decrypt(),
+            {
+                "status": "fail",
+                "message": "Autenticação Invalida",
             },
         )
 
