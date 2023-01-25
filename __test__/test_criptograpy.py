@@ -47,8 +47,8 @@ class TestSimpleCypherMethods(unittest.TestCase):
         cript_eb = SimpleCypher(
             {"char_a1": ("E", 2), "char_a2": ("J", 8)},
             "bem vindo à criptografia de transp",
-            "banana",
-        )
+            415263,
+        )  # keyword banana
         mensagem_data = cript_eb.encrypt()
         self.assertEqual(mensagem_data[0], "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP")
 
@@ -65,7 +65,7 @@ class TestSimpleCypherMethods(unittest.TestCase):
         decrypt_class_1 = SimpleCypher(
             {"char_a1": ("E", 2), "char_a2": ("J", 8)},
             "EEOTI AZJVC GDSNI ATZBD PFRZM AOANZ IRREP",
-            "banana",
+            415263,
         )
         self.assertDictEqual(
             decrypt_class_1.decrypt(),

@@ -1,5 +1,6 @@
-"""Módulo principal de criptografia"""
+"""Módulo de criptografia com chave simples"""
 
+from typing import Union
 from core_criptography import CoreCriptography
 
 
@@ -24,11 +25,11 @@ class SimpleCypher(CoreCriptography):
         self,
         char_au: dict[str, tuple[str, int], str, tuple[str, int]],
         message: str,
-        keyword: str,
+        keyword: Union[str, int],
     ):
         super().__init__(char_au)
         self.message = message
-        self.keyword = keyword
+        self.keyword = str(keyword)
 
     def encrypt(self) -> tuple[str, bool]:
         """
