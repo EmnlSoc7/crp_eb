@@ -6,7 +6,7 @@ from unidecode import unidecode
 class CoreCriptography:
     """Responsável pelo controle da criptografia"""
 
-    def __init__(self, char_au: dict[str, tuple[str, int], str, tuple[str, int]]):
+    def __init__(self, char_au: dict[str, tuple[str, int]]):
         """Inicializacao da classe"""
 
         if char_au["char_a1"][1] == char_au["char_a2"][1]:
@@ -88,7 +88,9 @@ class CoreCriptography:
 
         return message
 
-    def generate_matrix(self, message: str, key: list[int], blank=False) -> list:
+    def generate_matrix(
+        self, message: str, key: list[int], blank=False
+    ) -> list[list[str]]:
         """Cria uma matriz com maximo de colunas de uma chave especifica"""
 
         matrix = []  # matriz final
@@ -107,7 +109,7 @@ class CoreCriptography:
 
         return matrix
 
-    def enumerate_indexes(self, key: list[int]) -> list:
+    def enumerate_indexes(self, key: list[int]) -> list[int]:
         """Retorna os indices em ordem crescente de uma lista de inteiros"""
         return [i[0] for i in sorted(enumerate(key), key=lambda x: x[1])]
 

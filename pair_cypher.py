@@ -20,7 +20,7 @@ class PairCypher(CoreCriptography):
 
     def __init__(
         self,
-        char_au: dict[str, tuple[str, int], str, tuple[str, int]],
+        char_au: dict[str, tuple[str, int]],
         message: str,
         first_keyword: Union[str, int],
         second_keyword: Union[str, int],
@@ -30,7 +30,9 @@ class PairCypher(CoreCriptography):
         self.first_keyword = str(first_keyword)
         self.second_keyword = str(second_keyword)
 
-    def matrix_refactory_by_index(self, matrix: list, key_indexes: list):
+    def matrix_refactory_by_index(
+        self, matrix: list[list[str]], key_indexes: list[int]
+    ) -> tuple[list[int], list[list[str]]]:
         """Realiza a refatoração de uma matriz de acordo com a lista de headers fornecidas
 
         Args:
@@ -50,7 +52,7 @@ class PairCypher(CoreCriptography):
 
         return (reverse_key, line_encrypted_matrix)
 
-    def encrypt(self) -> dict["status":str, "message":str]:
+    def encrypt(self) -> dict[str, str]:
         """
         Realiza a criptografia da mensagem com as chaves e letras
         de autenticação fornecidas
@@ -117,7 +119,7 @@ class PairCypher(CoreCriptography):
             "message": encrypted_message.strip().upper(),
         }
 
-    def decrypt(self) -> dict["status":str, "message":str]:
+    def decrypt(self) -> dict[str, str]:
         """Realiza a descriptografia da mensagem inicializada
 
         Returns:
