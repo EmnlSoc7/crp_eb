@@ -87,7 +87,7 @@ class KeywordsFrame(ttk.Frame):
         self.first_autentication = ttk.Entry(
             self, textvariable=self.first_au, justify="center", width=3
         )
-        self.first_autentication.grid(column=3, row=0, sticky=tk.W, **options)
+        self.first_autentication.grid(column=3, row=0, sticky=tk.E, **options)
 
         self.first_au_pos_box = ttk.Combobox(
             self, textvariable=self.first_au_pos, justify="center", width=3
@@ -107,7 +107,7 @@ class KeywordsFrame(ttk.Frame):
         self.second_autentication = ttk.Entry(
             self, textvariable=self.second_au, justify="center", width=3
         )
-        self.second_autentication.grid(column=3, row=1, sticky=tk.W, **options)
+        self.second_autentication.grid(column=3, row=1, sticky=tk.E, **options)
 
         self.second_au_pos_box = ttk.Combobox(
             self, textvariable=self.second_au_pos, justify="center", width=3
@@ -128,14 +128,20 @@ class KeywordsFrame(ttk.Frame):
         self.message_output_label = ttk.Label(self, text="Saida:")
         self.message_output_label.grid(column=2, row=5, sticky=tk.W, padx=5)
         self.message_output = tk.Text(self, width=40, height=10, relief="solid")
-        self.message_output.grid(column=2, row=6, columnspan=18, sticky=tk.W, padx=5)
+        self.message_output.grid(column=2, row=6, columnspan=12, sticky=tk.W, padx=5)
 
         # ----------------------------------------------------
         # Botão de execução
         # ----------------------------------------------------
 
         self.execute = ttk.Button(self, text="Executar", command=self.execute_cypher)
-        self.execute.grid(column=0, row=7, columnspan=2, sticky=tk.W, **options)
+        self.execute.grid(column=0, row=7, sticky=tk.EW, **options)
+
+        self.clear = ttk.Button(self, text="Limpar", command=self.clear_interface)
+        self.clear.grid(column=1, row=7, sticky=tk.W, **options)
+
+        self.status = ttk.Label(self, text="", foreground="red", font=("bold", 11))
+        self.status.grid(column=2, row=7, sticky=tk.E, columnspan=12, **options)
 
         # ----------------------------------------------------
         # Gatilhos de Eventos
@@ -234,6 +240,16 @@ class KeywordsFrame(ttk.Frame):
     # Execuções exceto eventos
     # ----------------------------------------------------
 
+    def change_status(self, message, color="green"):
+        """Altera o status do retorno
+
+        Parameters
+        ----------
+        message : str
+            Mensagem de status desejada
+        """
+        self.status.config(text=message, foreground=color)
+
     def execute_cypher(self):
         """Evento de execução do botão self.execute"""
 
@@ -245,16 +261,21 @@ class KeywordsFrame(ttk.Frame):
 
                 validations = self.validate_params()
                 if validations["status"] is False:
-                    print(validations["values"])
+                    self.change_status(validations["values"], "red")
                     return
 
                 message, keyword, char_au = validations["values"]
 
                 cypher = SimpleCypher(char_au, message, keyword)
 
-                encrypted_message, _ = cypher.encrypt()
+                encrypted_message, status = cypher.encrypt()
+
                 self.message_output.delete("1.0", "end")
-                self.message_output.insert("1.0", encrypted_message)
+                if status is True:
+                    self.change_status("Criptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", encrypted_message)
+                else:
+                    self.change_status(encrypted_message, "red")
 
             elif cypher_type == "Chave Dupla":
 
@@ -283,8 +304,13 @@ class KeywordsFrame(ttk.Frame):
                 cypher = SimpleCypher(char_au, message, keyword)
 
                 decrypted_message = cypher.decrypt()
+
                 self.message_output.delete("1.0", "end")
-                self.message_output.insert("1.0", decrypted_message["message"])
+                if decrypted_message["status"] == "success":
+                    self.change_status("Criptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
 
             elif cypher_type == "Chave Dupla":
                 validations = self.validate_params()
@@ -301,6 +327,22 @@ class KeywordsFrame(ttk.Frame):
         else:
             pass
 
+    def clear_interface(self):
+        """Reseta todos os campos preenchidos"""
+
+        self.cript_type.set("Chave Simples")
+        self.cript_type_changed(None)
+        self.operation.set("Criptografar")
+        self.first_autentication.delete(0, tk.END)
+        self.second_autentication.delete(0, tk.END)
+        self.first_au_pos_box.set("")
+        self.second_au_pos_box.set("")
+        self.keyword_1.delete(0, tk.END)
+        self.keyword_2.delete(0, tk.END)
+        self.message_input.delete("1.0", "end")
+        self.message_output.delete("1.0", "end")
+        self.change_status("", "green")
+
 
 class App(tk.Tk):
     """Metodo principal de execução da interface
@@ -315,7 +357,7 @@ class App(tk.Tk):
         super().__init__()
 
         self.title("Criptografia")
-        self.geometry("700x600")
+        self.geometry("690x600")
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
