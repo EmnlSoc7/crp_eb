@@ -1,4 +1,4 @@
-"""Interface de usuário"""
+"""Modulo de interface da criptografia"""
 
 import re
 import tkinter as tk
@@ -10,6 +10,14 @@ from pair_cypher import PairCypher
 
 
 class KeywordsFrame(ttk.Frame):
+    """Interface de Criptografia
+
+    Parameters
+    ----------
+    ttk : Frame()
+        root de acesso da interface do tkinter
+    """
+
     def __init__(self, container):
         super().__init__(container)
 
@@ -150,7 +158,7 @@ class KeywordsFrame(ttk.Frame):
     # ----------------------------------------------------
 
     def cript_type_changed(self, event):
-        """Recebe o evento de alteração do tipo de criptografia"""
+        """Evento de mudanças do tipo de criptografia"""
 
         cript_choice = self.cript_type.get()
 
@@ -161,12 +169,25 @@ class KeywordsFrame(ttk.Frame):
             self.keyword_2["state"] = "readonly"
 
     def character_formatting(self, entry_text):
+        """Realiza a formatação de caracter unico
+
+        Parameters
+        ----------
+        entry_text : StringVar()
+            Realizado a formatação da StringVar() como caractere unico
+        """
         entry_text.set(entry_text.get().upper())
         if len(entry_text.get()) > 0:
             entry_text.set(entry_text.get()[-1])
 
     def validate_params(self) -> dict:
+        """Realiza a validação dos parametros selecionados
 
+        Returns
+        -------
+        dict : 'status': bool, 'values': tuple(str | str, str, str)
+            Retorna tupla com a mensagem de erro ou os dados completos
+        """
         # --------------------------
         # Validações
         # --------------------------
@@ -214,6 +235,8 @@ class KeywordsFrame(ttk.Frame):
     # ----------------------------------------------------
 
     def execute_cypher(self):
+        """Evento de execução do botão self.execute"""
+
         option = self.operation_selection.get()
         cypher_type = self.criptography_type.get()
 
@@ -280,6 +303,14 @@ class KeywordsFrame(ttk.Frame):
 
 
 class App(tk.Tk):
+    """Metodo principal de execução da interface
+
+    Parameters
+    ----------
+    tk : Tk()
+        Modulo do tkinter
+    """
+
     def __init__(self):
         super().__init__()
 
