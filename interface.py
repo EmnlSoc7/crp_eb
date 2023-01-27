@@ -32,8 +32,6 @@ class KeywordsFrame(ttk.Frame):
         self.criptography_type["state"] = "readonly"
         self.criptography_type.grid(column=1, row=0, sticky=tk.E, **options)
 
-        # criptography_type.bind("<<ComboboxSelected>>", self.cript_defined)
-
         self.operation = tk.StringVar()
         self.operation.set("Criptografar")
         self.operation_selection = ttk.Combobox(self, textvariable=self.operation)
