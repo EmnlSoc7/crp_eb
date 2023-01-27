@@ -1,5 +1,6 @@
 """Interface de usuário"""
 
+import re
 import tkinter as tk
 from tkinter import ttk
 
@@ -180,28 +181,56 @@ class KeywordsFrame(ttk.Frame):
         if len(entry_text.get()) > 0:
             entry_text.set(entry_text.get()[-1])
 
+    def validate_simple_cypher_params(self) -> dict:
+
+        # --------------------------
+        # Validações
+        # --------------------------
+        if len(self.message_input.get("1.0", "end").strip()) <= 0:
+            return {"status": False, "values": ("Mensagem Invalida")}
+        if len(self.keyword_1.get()) <= 0:
+            return {"status": False, "values": ("Chave Invalida")}
+
+        if (
+            len(self.first_au.get()) <= 0
+            or len(self.second_au.get()) <= 0
+            or len(self.first_au_pos.get()) <= 0
+            or len(self.second_au_pos.get()) <= 0
+        ):
+            return {"status": False, "values": ("Autenticação Invalida")}
+
+        # --------------------------
+        # Transformações
+        # --------------------------
+        message = self.message_input.get("1.0", "end").strip()
+        message = re.sub(r"(\n[ \t]*)+", "\n", message)
+        keyword = self.keyword_1.get()
+
+        auth_1 = self.first_au.get()
+        auth_1_pos = self.first_au_pos.get()
+        auth_2 = self.second_au.get()
+        auth_2_pos = self.second_au_pos.get()
+
+        char_au = {
+            "char_a1": (auth_1, int(auth_1_pos)),
+            "char_a2": (auth_2, int(auth_2_pos)),
+        }
+
+        return {"status": True, "values": (message, keyword, char_au)}
+
     def execute_cypher(self):
         option = self.operation_selection.get()
         cypher_type = self.criptography_type.get()
 
         if option == "Criptografar":
             if cypher_type == "Chave Simples":
-                if len(self.keyword_1.get()) <= 0:
+
+                validations = self.validate_simple_cypher_params()
+                if validations["status"] is False:
+                    print(validations["values"])
                     return
 
-                message = self.message_input.get("1.0", "end")
-
-                keyword = self.keyword_1.get()
-
-                auth_1 = self.first_au.get()
-                auth_1_pos = self.first_au_pos.get()
-                auth_2 = self.second_au.get()
-                auth_2_pos = self.second_au_pos.get()
-
-                char_au = {
-                    "char_a1": (auth_1, int(auth_1_pos)),
-                    "char_a2": (auth_2, int(auth_2_pos)),
-                }
+                message, keyword, char_au = validations["values"]
 
                 cypher = SimpleCypher(char_au, message, keyword)
 
@@ -213,7 +242,20 @@ class KeywordsFrame(ttk.Frame):
                 pass
         elif option == "Descriptografar":
             if cypher_type == "Chave Simples":
-                pass
+
+                validations = self.validate_simple_cypher_params()
+                if validations["status"] is False:
+                    print(validations["values"])
+                    return
+
+                message, keyword, char_au = validations["values"]
+
+                cypher = SimpleCypher(char_au, message, keyword)
+
+                decrypted_message = cypher.decrypt()
+                self.message_output.delete("1.0", "end")
+                self.message_output.insert("1.0", decrypted_message["message"])
+
             elif cypher_type == "Chave Dupla":
                 pass
         else:
