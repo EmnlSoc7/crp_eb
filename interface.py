@@ -165,7 +165,7 @@ class KeywordsFrame(ttk.Frame):
 
     def cript_type_changed(self, event):
         """Evento de mudanças do tipo de criptografia"""
-
+        print(event)
         cript_choice = self.cript_type.get()
 
         if cript_choice == "Chave Dupla":
