@@ -34,9 +34,7 @@ class KeywordsFrame(ttk.Frame):
         self.operation_selection = ttk.Combobox(self, textvariable=self.operation)
         self.operation_selection["values"] = ("Criptografar", "Descriptografar")
         self.operation_selection["state"] = "readonly"
-        self.operation_selection.grid(
-            column=0, row=4, columnspan=2, sticky=tk.EW, **options
-        )
+        self.operation_selection.grid(column=0, row=4, columnspan=2, sticky=tk.EW, **options)
 
         # ---------------------------------------------------
         # Grid para as chaves criptograficas
@@ -84,32 +82,45 @@ class KeywordsFrame(ttk.Frame):
         # Grid das letras de autenticação
         # ---------------------------------------------------
 
+        # -----------------
         # primeira letra
+        # -----------------
         self.first_au = tk.StringVar()
         self.first_au_pos = tk.StringVar()
         self.first_autentication_label = ttk.Label(self, text="Primeira Letra:")
         self.first_autentication_label.grid(column=2, row=0, sticky=tk.W, **options)
 
-        self.first_autentication = ttk.Entry(self, textvariable=self.first_au, width=3)
+        self.first_autentication = ttk.Entry(
+            self, textvariable=self.first_au, justify="center", width=3
+        )
         self.first_autentication.grid(column=3, row=0, sticky=tk.W, **options)
 
-        self.first_au_pos_box = ttk.Combobox(self, textvariable=self.first_au_pos)
+        self.first_au_pos_box = ttk.Combobox(
+            self, textvariable=self.first_au_pos, justify="center", width=3
+        )
         self.first_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
         self.first_au_pos_box["state"] = "readonly"
-        self.first_au_pos_box.grid(
-            column=4, row=0, columnspan=1, sticky=tk.W, **options
-        )
+        self.first_au_pos_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **options)
 
+        # -----------------
         # segunda letra
+        # -----------------
         self.second_au = tk.StringVar()
-        self.second_autentication_label = ttk.Label(self, text="Segunda Chave:")
+        self.second_au_pos = tk.StringVar()
+        self.second_autentication_label = ttk.Label(self, text="Segunda Letra:")
         self.second_autentication_label.grid(column=2, row=1, sticky=tk.W, **options)
 
         self.second_autentication = ttk.Entry(
-            self, textvariable=self.second_au, width=3
+            self, textvariable=self.second_au, justify="center", width=3
         )
         self.second_autentication.grid(column=3, row=1, sticky=tk.W, **options)
-        self.second_autentication["state"] = "readonly"
+
+        self.second_au_pos_box = ttk.Combobox(
+            self, textvariable=self.second_au_pos, justify="center", width=3
+        )
+        self.second_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
+        self.second_au_pos_box["state"] = "readonly"
+        self.second_au_pos_box.grid(column=4, row=1, columnspan=1, sticky=tk.W, **options)
 
         # ----------------------------------------------------
         # Mensagens de entrada e saida
@@ -140,6 +151,10 @@ class KeywordsFrame(ttk.Frame):
         ## Desabilita/Habilita campo da segunda chave
         self.criptography_type.bind("<<ComboboxSelected>>", self.cript_type_changed)
 
+        # Controla estado das letras de autenticação
+        self.first_au.trace("w", lambda *args: self.character_formatting(self.first_au))
+        self.second_au.trace("w", lambda *args: self.character_formatting(self.second_au))
+
         # ----------------------------------------------------
         # Execução da Grid
         # ----------------------------------------------------
@@ -155,6 +170,11 @@ class KeywordsFrame(ttk.Frame):
         elif cript_choice == "Chave Simples":
             self.keyword_2.delete(0, tk.END)
             self.keyword_2["state"] = "readonly"
+
+    def character_formatting(self, entry_text):
+        entry_text.set(entry_text.get().upper())
+        if len(entry_text.get()) > 0:
+            entry_text.set(entry_text.get()[-1])
 
     def execute_cypher(self):
         pass
