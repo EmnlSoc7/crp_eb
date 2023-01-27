@@ -357,7 +357,7 @@ class App(tk.Tk):
         super().__init__()
 
         self.title("Criptografia")
-        self.geometry("690x600")
+        self.geometry("690x380")
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
