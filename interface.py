@@ -3,6 +3,10 @@
 import tkinter as tk
 from tkinter import ttk
 
+# Modulos locais
+from simple_cypher import SimpleCypher
+from pair_cypher import PairCypher
+
 
 class KeywordsFrame(ttk.Frame):
     def __init__(self, container):
@@ -177,7 +181,43 @@ class KeywordsFrame(ttk.Frame):
             entry_text.set(entry_text.get()[-1])
 
     def execute_cypher(self):
-        pass
+        option = self.operation_selection.get()
+        cypher_type = self.criptography_type.get()
+
+        if option == "Criptografar":
+            if cypher_type == "Chave Simples":
+                if len(self.keyword_1.get()) <= 0:
+                    return
+
+                message = self.message_input.get("1.0", "end")
+
+                keyword = self.keyword_1.get()
+
+                auth_1 = self.first_au.get()
+                auth_1_pos = self.first_au_pos.get()
+                auth_2 = self.second_au.get()
+                auth_2_pos = self.second_au_pos.get()
+
+                char_au = {
+                    "char_a1": (auth_1, int(auth_1_pos)),
+                    "char_a2": (auth_2, int(auth_2_pos)),
+                }
+
+                cypher = SimpleCypher(char_au, message, keyword)
+
+                encrypted_message, _ = cypher.encrypt()
+                self.message_output.delete("1.0", "end")
+                self.message_output.insert("1.0", encrypted_message)
+
+            elif cypher_type == "Chave Dupla":
+                pass
+        elif option == "Descriptografar":
+            if cypher_type == "Chave Simples":
+                pass
+            elif cypher_type == "Chave Dupla":
+                pass
+        else:
+            pass
 
 
 class App(tk.Tk):
