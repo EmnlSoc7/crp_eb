@@ -181,7 +181,7 @@ class KeywordsFrame(ttk.Frame):
         if len(entry_text.get()) > 0:
             entry_text.set(entry_text.get()[-1])
 
-    def validate_simple_cypher_params(self) -> dict:
+    def validate_params(self) -> dict:
 
         # --------------------------
         # Validações
@@ -190,6 +190,9 @@ class KeywordsFrame(ttk.Frame):
             return {"status": False, "values": ("Mensagem Invalida")}
         if len(self.keyword_1.get()) <= 0:
             return {"status": False, "values": ("Chave Invalida")}
+
+        if self.cript_type.get() == "Chave Dupla" and len(self.keyword_2.get()) <= 0:
+            return {"status": False, "values": ("Chave Dupla Invalida")}
 
         if (
             len(self.first_au.get()) <= 0
@@ -204,7 +207,11 @@ class KeywordsFrame(ttk.Frame):
         # --------------------------
         message = self.message_input.get("1.0", "end").strip()
         message = re.sub(r"(\n[ \t]*)+", "\n", message)
-        keyword = self.keyword_1.get()
+
+        if self.cript_type.get() == "Chave Dupla":
+            keywords = (self.keyword_1.get(), self.keyword_2.get())
+        else:
+            keywords = self.keyword_1.get()
 
         auth_1 = self.first_au.get()
         auth_1_pos = self.first_au_pos.get()
@@ -216,7 +223,7 @@ class KeywordsFrame(ttk.Frame):
             "char_a2": (auth_2, int(auth_2_pos)),
         }
 
-        return {"status": True, "values": (message, keyword, char_au)}
+        return {"status": True, "values": (message, keywords, char_au)}
 
     def execute_cypher(self):
         option = self.operation_selection.get()
@@ -225,7 +232,7 @@ class KeywordsFrame(ttk.Frame):
         if option == "Criptografar":
             if cypher_type == "Chave Simples":
 
-                validations = self.validate_simple_cypher_params()
+                validations = self.validate_params()
                 if validations["status"] is False:
                     print(validations["values"])
                     return
@@ -239,11 +246,23 @@ class KeywordsFrame(ttk.Frame):
                 self.message_output.insert("1.0", encrypted_message)
 
             elif cypher_type == "Chave Dupla":
-                pass
+
+                validations = self.validate_params()
+                if validations["status"] is False:
+                    print(validations["values"])
+
+                message, keywords, char_au = validations["values"]
+
+                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+
+                encrypted_message = cypher.encrypt()
+                self.message_output.delete("1.0", "end")
+                self.message_output.insert("1.0", encrypted_message["message"])
+
         elif option == "Descriptografar":
             if cypher_type == "Chave Simples":
 
-                validations = self.validate_simple_cypher_params()
+                validations = self.validate_params()
                 if validations["status"] is False:
                     print(validations["values"])
                     return
@@ -257,7 +276,17 @@ class KeywordsFrame(ttk.Frame):
                 self.message_output.insert("1.0", decrypted_message["message"])
 
             elif cypher_type == "Chave Dupla":
-                pass
+                validations = self.validate_params()
+                if validations["status"] is False:
+                    print(validations["values"])
+
+                message, keywords, char_au = validations["values"]
+
+                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+
+                decrypted_message = cypher.decrypt()
+                self.message_output.delete("1.0", "end")
+                self.message_output.insert("1.0", decrypted_message["message"])
         else:
             pass
 
