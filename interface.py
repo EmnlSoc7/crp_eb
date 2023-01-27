@@ -45,7 +45,9 @@ class KeywordsFrame(ttk.Frame):
         # Grid para as chaves criptograficas
         # ---------------------------------------------------
 
-        # primeira chave
+        # -----------------
+        # Primeira chave
+        # -----------------
         self.first_keyword = tk.StringVar()
         self.keyword_1_label = ttk.Label(self, text="Primeira Chave:")
         self.keyword_1_label.grid(column=0, row=1, sticky=tk.W, **options)
@@ -53,28 +55,9 @@ class KeywordsFrame(ttk.Frame):
         self.keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
         self.keyword_1.grid(column=1, row=1, sticky=tk.E, **options)
 
-        # segunda chave
-        self.second_keyword = tk.StringVar()
-        self.keyword_2_label = ttk.Label(self, text="Segunda Chave:")
-        self.keyword_2_label.grid(column=0, row=2, sticky=tk.W, **options)
-
-        self.keyword_2 = ttk.Entry(self, textvariable=self.second_keyword)
-        self.keyword_2.grid(column=1, row=2, sticky=tk.E, **options)
-        self.keyword_2["state"] = "readonly"
-
-        # ---------------------------------------------------
-        # Grid para as chaves criptograficas
-        # ---------------------------------------------------
-
-        # primeira chave
-        self.first_keyword = tk.StringVar()
-        self.keyword_1_label = ttk.Label(self, text="Primeira Chave:")
-        self.keyword_1_label.grid(column=0, row=1, sticky=tk.W, **options)
-
-        self.keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
-        self.keyword_1.grid(column=1, row=1, sticky=tk.E, **options)
-
-        # segunda chave
+        # -----------------
+        # Segunda chave
+        # -----------------
         self.second_keyword = tk.StringVar()
         self.keyword_2_label = ttk.Label(self, text="Segunda Chave:")
         self.keyword_2_label.grid(column=0, row=2, sticky=tk.W, **options)
@@ -134,7 +117,6 @@ class KeywordsFrame(ttk.Frame):
         self.message_input_label = ttk.Label(self, text="Mensagem:")
         self.message_input_label.grid(column=0, row=5, sticky=tk.W, padx=5)
         self.message_input = tk.Text(self, width=40, height=10, relief="solid")
-
         self.message_input.grid(column=0, row=6, columnspan=2, sticky=tk.W, padx=5)
 
         self.message_output_label = ttk.Label(self, text="Saida:")
@@ -150,7 +132,7 @@ class KeywordsFrame(ttk.Frame):
         self.execute.grid(column=0, row=7, columnspan=2, sticky=tk.W, **options)
 
         # ----------------------------------------------------
-        # Eventos
+        # Gatilhos de Eventos
         # ----------------------------------------------------
 
         ## Desabilita/Habilita campo da segunda chave
@@ -164,6 +146,10 @@ class KeywordsFrame(ttk.Frame):
         # Execução da Grid
         # ----------------------------------------------------
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
+
+    # ----------------------------------------------------
+    # Eventos e Validações (Metodos)
+    # ----------------------------------------------------
 
     def cript_type_changed(self, event):
         """Recebe o evento de alteração do tipo de criptografia"""
@@ -224,6 +210,10 @@ class KeywordsFrame(ttk.Frame):
         }
 
         return {"status": True, "values": (message, keywords, char_au)}
+
+    # ----------------------------------------------------
+    # Execuções exceto eventos
+    # ----------------------------------------------------
 
     def execute_cypher(self):
         option = self.operation_selection.get()
