@@ -9,7 +9,7 @@ from src.modules.simple_cypher import SimpleCypher
 from src.modules.pair_cypher import PairCypher
 
 
-class KeywordsFrame(ttk.Frame):
+class InitialFrame(ttk.Frame):
     """Interface de Criptografia
 
     Parameters

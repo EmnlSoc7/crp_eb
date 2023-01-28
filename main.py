@@ -1,6 +1,6 @@
 """Execução principal da aplicação"""
 
-from src.interface.main import App, KeywordsFrame
+from src.interface.main import App, InitialFrame
 
 if __name__ == "__main__":
 
@@ -10,5 +10,5 @@ if __name__ == "__main__":
 
     application = App()
 
-    KeywordsFrame(application)
+    InitialFrame(application)
     application.mainloop()
