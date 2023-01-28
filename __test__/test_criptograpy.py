@@ -2,8 +2,8 @@
 
 import unittest
 
-from core_criptography import CoreCriptography
-from simple_cypher import SimpleCypher
+from src.modules.core_criptography import CoreCriptography
+from src.modules.simple_cypher import SimpleCypher
 
 
 class TestCriptographyEBMethods(unittest.TestCase):

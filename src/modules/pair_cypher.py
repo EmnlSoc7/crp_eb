@@ -1,7 +1,7 @@
 """Módulo de criptografia de chave dupla"""
 
 from typing import Union
-from core_criptography import CoreCriptography
+from src.modules.core_criptography import CoreCriptography
 
 
 class PairCypher(CoreCriptography):

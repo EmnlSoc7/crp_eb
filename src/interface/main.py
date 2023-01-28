@@ -5,8 +5,8 @@ import tkinter as tk
 from tkinter import ttk
 
 # Modulos locais
-from simple_cypher import SimpleCypher
-from pair_cypher import PairCypher
+from src.modules.simple_cypher import SimpleCypher
+from src.modules.pair_cypher import PairCypher
 
 
 class KeywordsFrame(ttk.Frame):
@@ -373,7 +373,4 @@ class App(tk.Tk):
 
 
 if __name__ == "__main__":
-    app = App()
-    KeywordsFrame(app)
-
-    app.mainloop()
+    pass
