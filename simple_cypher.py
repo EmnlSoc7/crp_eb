@@ -23,7 +23,7 @@ class SimpleCypher(CoreCriptography):
 
     def __init__(
         self,
-        char_au: dict[str, tuple[str, int], str, tuple[str, int]],
+        char_au: dict[str, tuple[str, int]],
         message: str,
         keyword: Union[str, int],
     ):

@@ -88,9 +88,7 @@ class CoreCriptography:
 
         return message
 
-    def generate_matrix(
-        self, message: str, key: list[int], blank=False
-    ) -> list[list[str]]:
+    def generate_matrix(self, message: str, key: list[int], blank=False) -> list[list[str]]:
         """Cria uma matriz com maximo de colunas de uma chave especifica"""
 
         matrix = []  # matriz final
@@ -130,16 +128,10 @@ class CoreCriptography:
         char_a1_index = self.char_a1_pos - 1
         char_a2_index = self.char_a2_pos - 1
 
-        if (
-            message[char_a1_index] == self.char_a1
-            and message[char_a2_index] == self.char_a2
-        ):
+        if message[char_a1_index] == self.char_a1 and message[char_a2_index] == self.char_a2:
+            message_autenticated = message[:char_a1_index] + message[char_a1_index + 1 :]
             message_autenticated = (
-                message[:char_a1_index] + message[char_a1_index + 1 :]
-            )
-            message_autenticated = (
-                message_autenticated[: char_a2_index - 1]
-                + message_autenticated[char_a2_index:]
+                message_autenticated[: char_a2_index - 1] + message_autenticated[char_a2_index:]
             )
             return (message_autenticated, True)
         return (message, False)

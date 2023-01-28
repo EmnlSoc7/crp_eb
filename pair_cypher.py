@@ -81,9 +81,7 @@ class PairCypher(CoreCriptography):
         encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
 
-        _, line_refactored_matrix = self.matrix_refactory_by_index(
-            matrix, second_key_indexes
-        )
+        _, line_refactored_matrix = self.matrix_refactory_by_index(matrix, second_key_indexes)
 
         for i in first_key_indexes:  # percorre os cabeçalhos
 
@@ -144,9 +142,7 @@ class PairCypher(CoreCriptography):
         # -----------------------------------------------------------
         matrix = self.generate_matrix(autenticated_message[0], first_key, blank=True)
 
-        reverse_key, matrix_refactored = self.matrix_refactory_by_index(
-            matrix, second_key_indexes
-        )
+        reverse_key, matrix_refactored = self.matrix_refactory_by_index(matrix, second_key_indexes)
         # -----------------------------------------------------------
         # Descrição:
         # Percorre toda a mensagem letra por letra, verifica
