@@ -263,11 +263,9 @@ class KeywordsFrame(ttk.Frame):
                 if validations["status"] is False:
                     self.change_status(validations["values"], "red")
                     return
-
                 message, keyword, char_au = validations["values"]
 
                 cypher = SimpleCypher(char_au, message, keyword)
-
                 encrypted_message, status = cypher.encrypt()
 
                 self.message_output.delete("1.0", "end")
@@ -290,6 +288,12 @@ class KeywordsFrame(ttk.Frame):
                 encrypted_message = cypher.encrypt()
                 self.message_output.delete("1.0", "end")
                 self.message_output.insert("1.0", encrypted_message["message"])
+
+                if encrypted_message["status"] == "success":
+                    self.change_status("Criptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", encrypted_message["message"])
+                else:
+                    self.change_status(encrypted_message["message"], "red")
 
         elif option == "Descriptografar":
             if cypher_type == "Chave Simples":
@@ -324,6 +328,12 @@ class KeywordsFrame(ttk.Frame):
                 decrypted_message = cypher.decrypt()
                 self.message_output.delete("1.0", "end")
                 self.message_output.insert("1.0", decrypted_message["message"])
+
+                if decrypted_message["status"] == "success":
+                    self.change_status("Descriptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
         else:
             pass
 
