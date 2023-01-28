@@ -310,7 +310,7 @@ class KeywordsFrame(ttk.Frame):
 
                 self.message_output.delete("1.0", "end")
                 if decrypted_message["status"] == "success":
-                    self.change_status("Criptografado com sucesso!", "green")
+                    self.change_status("Descriptografado com sucesso!", "green")
                     self.message_output.insert("1.0", decrypted_message["message"])
                 else:
                     self.change_status(decrypted_message["message"], "red")
@@ -369,6 +369,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
+        self.iconbitmap("src/img/comandos.ico")
 
 
 if __name__ == "__main__":
