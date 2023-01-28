@@ -18,34 +18,31 @@ class InitialFrame(ttk.Frame):
         root de acesso da interface do tkinter
     """
 
+    OPTIONS = {"padx": 5, "pady": 5}
+
     def __init__(self, container):
         super().__init__(container)
-
-        # ----------------------------------------------------
-        # Opções Padrões
-        # ----------------------------------------------------
-        options = {"padx": 5, "pady": 5}
 
         # ----------------------------------------------------
         # Seleção do tipo de chave criptografica e de modo
         # ----------------------------------------------------
 
         self.cript_label = ttk.Label(self, text="Tipo de Chave:")
-        self.cript_label.grid(column=0, row=0, sticky=tk.W, **options)
+        self.cript_label.grid(column=0, row=0, sticky=tk.W, **self.OPTIONS)
 
         self.cript_type = tk.StringVar(value="Chave Simples")
 
         self.criptography_type = ttk.Combobox(self, textvariable=self.cript_type)
         self.criptography_type["values"] = ("Chave Simples", "Chave Dupla")
         self.criptography_type["state"] = "readonly"
-        self.criptography_type.grid(column=1, row=0, sticky=tk.E, **options)
+        self.criptography_type.grid(column=1, row=0, sticky=tk.E, **self.OPTIONS)
 
         self.operation = tk.StringVar()
         self.operation.set("Criptografar")
         self.operation_selection = ttk.Combobox(self, textvariable=self.operation)
         self.operation_selection["values"] = ("Criptografar", "Descriptografar")
         self.operation_selection["state"] = "readonly"
-        self.operation_selection.grid(column=0, row=4, columnspan=2, sticky=tk.EW, **options)
+        self.operation_selection.grid(column=0, row=4, columnspan=2, sticky=tk.EW, **self.OPTIONS)
 
         # ---------------------------------------------------
         # Grid para as chaves criptograficas
@@ -56,20 +53,20 @@ class InitialFrame(ttk.Frame):
         # -----------------
         self.first_keyword = tk.StringVar()
         self.keyword_1_label = ttk.Label(self, text="Primeira Chave:")
-        self.keyword_1_label.grid(column=0, row=1, sticky=tk.W, **options)
+        self.keyword_1_label.grid(column=0, row=1, sticky=tk.W, **self.OPTIONS)
 
         self.keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
-        self.keyword_1.grid(column=1, row=1, sticky=tk.E, **options)
+        self.keyword_1.grid(column=1, row=1, sticky=tk.E, **self.OPTIONS)
 
         # -----------------
         # Segunda chave
         # -----------------
         self.second_keyword = tk.StringVar()
         self.keyword_2_label = ttk.Label(self, text="Segunda Chave:")
-        self.keyword_2_label.grid(column=0, row=2, sticky=tk.W, **options)
+        self.keyword_2_label.grid(column=0, row=2, sticky=tk.W, **self.OPTIONS)
 
         self.keyword_2 = ttk.Entry(self, textvariable=self.second_keyword)
-        self.keyword_2.grid(column=1, row=2, sticky=tk.E, **options)
+        self.keyword_2.grid(column=1, row=2, sticky=tk.E, **self.OPTIONS)
         self.keyword_2["state"] = "readonly"
 
         # ---------------------------------------------------
@@ -82,19 +79,19 @@ class InitialFrame(ttk.Frame):
         self.first_au = tk.StringVar()
         self.first_au_pos = tk.StringVar()
         self.first_autentication_label = ttk.Label(self, text="Primeira Letra:")
-        self.first_autentication_label.grid(column=2, row=0, sticky=tk.W, **options)
+        self.first_autentication_label.grid(column=2, row=0, sticky=tk.W, **self.OPTIONS)
 
         self.first_autentication = ttk.Entry(
             self, textvariable=self.first_au, justify="center", width=3
         )
-        self.first_autentication.grid(column=3, row=0, sticky=tk.E, **options)
+        self.first_autentication.grid(column=3, row=0, sticky=tk.E, **self.OPTIONS)
 
         self.first_au_pos_box = ttk.Combobox(
             self, textvariable=self.first_au_pos, justify="center", width=3
         )
         self.first_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
         self.first_au_pos_box["state"] = "readonly"
-        self.first_au_pos_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **options)
+        self.first_au_pos_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **self.OPTIONS)
 
         # -----------------
         # segunda letra
@@ -102,19 +99,19 @@ class InitialFrame(ttk.Frame):
         self.second_au = tk.StringVar()
         self.second_au_pos = tk.StringVar()
         self.second_autentication_label = ttk.Label(self, text="Segunda Letra:")
-        self.second_autentication_label.grid(column=2, row=1, sticky=tk.W, **options)
+        self.second_autentication_label.grid(column=2, row=1, sticky=tk.W, **self.OPTIONS)
 
         self.second_autentication = ttk.Entry(
             self, textvariable=self.second_au, justify="center", width=3
         )
-        self.second_autentication.grid(column=3, row=1, sticky=tk.E, **options)
+        self.second_autentication.grid(column=3, row=1, sticky=tk.E, **self.OPTIONS)
 
         self.second_au_pos_box = ttk.Combobox(
             self, textvariable=self.second_au_pos, justify="center", width=3
         )
         self.second_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
         self.second_au_pos_box["state"] = "readonly"
-        self.second_au_pos_box.grid(column=4, row=1, columnspan=1, sticky=tk.W, **options)
+        self.second_au_pos_box.grid(column=4, row=1, columnspan=1, sticky=tk.W, **self.OPTIONS)
 
         # ----------------------------------------------------
         # Mensagens de entrada e saida
@@ -135,13 +132,13 @@ class InitialFrame(ttk.Frame):
         # ----------------------------------------------------
 
         self.execute = ttk.Button(self, text="Executar", command=self.execute_cypher)
-        self.execute.grid(column=0, row=7, sticky=tk.EW, **options)
+        self.execute.grid(column=0, row=7, sticky=tk.EW, **self.OPTIONS)
 
         self.clear = ttk.Button(self, text="Limpar", command=self.clear_interface)
-        self.clear.grid(column=1, row=7, sticky=tk.W, **options)
+        self.clear.grid(column=1, row=7, sticky=tk.W, **self.OPTIONS)
 
         self.status = ttk.Label(self, text="", foreground="red", font=("bold", 11))
-        self.status.grid(column=2, row=7, sticky=tk.E, columnspan=12, **options)
+        self.status.grid(column=2, row=7, sticky=tk.E, columnspan=12, **self.OPTIONS)
 
         # ----------------------------------------------------
         # Gatilhos de Eventos
