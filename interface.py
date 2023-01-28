@@ -286,9 +286,8 @@ class KeywordsFrame(ttk.Frame):
                 cypher = PairCypher(char_au, message, keywords[0], keywords[1])
 
                 encrypted_message = cypher.encrypt()
-                self.message_output.delete("1.0", "end")
-                self.message_output.insert("1.0", encrypted_message["message"])
 
+                self.message_output.delete("1.0", "end")
                 if encrypted_message["status"] == "success":
                     self.change_status("Criptografado com sucesso!", "green")
                     self.message_output.insert("1.0", encrypted_message["message"])
@@ -326,9 +325,8 @@ class KeywordsFrame(ttk.Frame):
                 cypher = PairCypher(char_au, message, keywords[0], keywords[1])
 
                 decrypted_message = cypher.decrypt()
-                self.message_output.delete("1.0", "end")
-                self.message_output.insert("1.0", decrypted_message["message"])
 
+                self.message_output.delete("1.0", "end")
                 if decrypted_message["status"] == "success":
                     self.change_status("Descriptografado com sucesso!", "green")
                     self.message_output.insert("1.0", decrypted_message["message"])
