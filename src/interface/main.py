@@ -401,9 +401,6 @@ class InitialFrame(ttk.Frame):
                 else:
                     self.change_status(encrypted_message["message"], "red")
 
-        else:
-            pass
-
     def clear_interface(self) -> None:
         """Reseta todos os campos preenchidos"""
 
@@ -433,7 +430,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("Jaguar v1.5")
+        self.title("Jaguar v1.2")
         self.geometry("690x380")
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
