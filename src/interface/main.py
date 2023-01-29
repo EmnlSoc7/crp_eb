@@ -438,7 +438,6 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
-        self.iconbitmap("src/img/jaguar.ico")
 
 
 if __name__ == "__main__":
