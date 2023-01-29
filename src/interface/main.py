@@ -338,16 +338,28 @@ class InitialFrame(ttk.Frame):
         option = self.operation.get()
         cypher_type = self.criptography_type.get()
 
-        if option == "Criptografar":
-            if cypher_type == "Chave Simples":
+        if cypher_type == "Chave Simples":
 
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    self.change_status(validations["values"], "red")
-                    return
-                message, keyword, char_au = validations["values"]
+            validations = self.validate_params()
+            if validations["status"] is False:
+                print(validations["values"])
+                return
 
-                cypher = SimpleCypher(char_au, message, keyword)
+            message, keyword, char_au = validations["values"]
+
+            cypher = SimpleCypher(char_au, message, keyword)
+
+            if option == "Descriptografar":
+                decrypted_message = cypher.decrypt()
+
+                self.message_output.delete("1.0", "end")
+                if decrypted_message["status"] == "success":
+                    self.change_status("Descriptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
+            elif option == "Criptografar":
+
                 encrypted_message, status = cypher.encrypt()
 
                 self.message_output.delete("1.0", "end")
@@ -357,15 +369,28 @@ class InitialFrame(ttk.Frame):
                 else:
                     self.change_status(encrypted_message, "red")
 
-            elif cypher_type == "Chave Dupla":
+        elif cypher_type == "Chave Dupla":
 
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
+            validations = self.validate_params()
+            if validations["status"] is False:
+                print(validations["values"])
 
-                message, keywords, char_au = validations["values"]
+            message, keywords, char_au = validations["values"]
 
-                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+            cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+
+            if option == "Descriptografar":
+
+                decrypted_message = cypher.decrypt()
+
+                self.message_output.delete("1.0", "end")
+                if decrypted_message["status"] == "success":
+                    self.change_status("Descriptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
+
+            elif option == "Criptografar":
 
                 encrypted_message = cypher.encrypt()
 
@@ -376,44 +401,6 @@ class InitialFrame(ttk.Frame):
                 else:
                     self.change_status(encrypted_message["message"], "red")
 
-        elif option == "Descriptografar":
-            if cypher_type == "Chave Simples":
-
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
-                    return
-
-                message, keyword, char_au = validations["values"]
-
-                cypher = SimpleCypher(char_au, message, keyword)
-
-                decrypted_message = cypher.decrypt()
-
-                self.message_output.delete("1.0", "end")
-                if decrypted_message["status"] == "success":
-                    self.change_status("Descriptografado com sucesso!", "green")
-                    self.message_output.insert("1.0", decrypted_message["message"])
-                else:
-                    self.change_status(decrypted_message["message"], "red")
-
-            elif cypher_type == "Chave Dupla":
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
-
-                message, keywords, char_au = validations["values"]
-
-                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
-
-                decrypted_message = cypher.decrypt()
-
-                self.message_output.delete("1.0", "end")
-                if decrypted_message["status"] == "success":
-                    self.change_status("Descriptografado com sucesso!", "green")
-                    self.message_output.insert("1.0", decrypted_message["message"])
-                else:
-                    self.change_status(decrypted_message["message"], "red")
         else:
             pass
 
