@@ -203,7 +203,7 @@ class InitialFrame(ttk.Frame):
         """Combobox da segunda letra de autenticação"""
 
         first_au_box = ttk.Combobox(self, textvariable=self.first_au_pos, justify="center", width=3)
-        first_au_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
+        first_au_box["values"] = [str(x) for x in range(1, 10)]
         first_au_box["state"] = "readonly"
         first_au_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **self.OPTIONS)
         return first_au_box
@@ -230,7 +230,7 @@ class InitialFrame(ttk.Frame):
         """Combobox da segunda letra de autenticação"""
 
         combobox = ttk.Combobox(self, textvariable=self.second_au_pos, justify="center", width=3)
-        combobox["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
+        combobox["values"] = [str(x) for x in range(1, 10)]
         combobox["state"] = "readonly"
         combobox.grid(column=4, row=1, columnspan=1, sticky=tk.W, **self.OPTIONS)
         return combobox
