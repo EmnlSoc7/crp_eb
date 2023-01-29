@@ -258,6 +258,12 @@ class InitialFrame(ttk.Frame):
         entry_text : StringVar()
             Realizado a formatação da StringVar() como caractere unico
         """
+
+        numbers_map = [str(x) for x in range(1, 10)]
+        for value in entry_text.get():
+            if value in numbers_map:
+                entry_text.set(entry_text.get().replace(value, ""))
+
         entry_text.set(entry_text.get().upper())
         if len(entry_text.get()) > 0:
             entry_text.set(entry_text.get()[-1])
