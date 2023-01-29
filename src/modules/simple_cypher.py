@@ -1,7 +1,7 @@
 """Módulo de criptografia com chave simples"""
 
 from typing import Union
-from core_criptography import CoreCriptography
+from src.modules.core_criptography import CoreCriptography
 
 
 class SimpleCypher(CoreCriptography):
@@ -23,7 +23,7 @@ class SimpleCypher(CoreCriptography):
 
     def __init__(
         self,
-        char_au: dict[str, tuple[str, int], str, tuple[str, int]],
+        char_au: dict[str, tuple[str, int]],
         message: str,
         keyword: Union[str, int],
     ):

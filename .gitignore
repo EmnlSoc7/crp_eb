@@ -15,3 +15,5 @@ __pycache__/
 cover/
 hard_testing.py
 env/
+build/
+dist/

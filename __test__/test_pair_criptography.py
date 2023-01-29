@@ -1,7 +1,7 @@
 """Realiza o test unitário da criptografia de chave dupla"""
 
 import unittest
-from pair_cypher import PairCypher
+from src.modules.pair_cypher import PairCypher
 
 
 class TestPairCriptographyMethods(unittest.TestCase):

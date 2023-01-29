@@ -1,7 +1,7 @@
 """Módulo de criptografia de chave dupla"""
 
 from typing import Union
-from core_criptography import CoreCriptography
+from src.modules.core_criptography import CoreCriptography
 
 
 class PairCypher(CoreCriptography):
@@ -20,7 +20,7 @@ class PairCypher(CoreCriptography):
 
     def __init__(
         self,
-        char_au: dict[str, tuple[str, int], str, tuple[str, int]],
+        char_au: dict[str, tuple[str, int]],
         message: str,
         first_keyword: Union[str, int],
         second_keyword: Union[str, int],
@@ -30,7 +30,9 @@ class PairCypher(CoreCriptography):
         self.first_keyword = str(first_keyword)
         self.second_keyword = str(second_keyword)
 
-    def matrix_refactory_by_index(self, matrix: list, key_indexes: list):
+    def matrix_refactory_by_index(
+        self, matrix: list[list[str]], key_indexes: list[int]
+    ) -> tuple[list[int], list[list[str]]]:
         """Realiza a refatoração de uma matriz de acordo com a lista de headers fornecidas
 
         Args:
@@ -50,7 +52,7 @@ class PairCypher(CoreCriptography):
 
         return (reverse_key, line_encrypted_matrix)
 
-    def encrypt(self) -> dict["status":str, "message":str]:
+    def encrypt(self) -> dict[str, str]:
         """
         Realiza a criptografia da mensagem com as chaves e letras
         de autenticação fornecidas
@@ -79,9 +81,7 @@ class PairCypher(CoreCriptography):
         encrypted_message = []  # lista de listas final da criptografia
         count_w = 1
 
-        _, line_refactored_matrix = self.matrix_refactory_by_index(
-            matrix, second_key_indexes
-        )
+        _, line_refactored_matrix = self.matrix_refactory_by_index(matrix, second_key_indexes)
 
         for i in first_key_indexes:  # percorre os cabeçalhos
 
@@ -117,7 +117,7 @@ class PairCypher(CoreCriptography):
             "message": encrypted_message.strip().upper(),
         }
 
-    def decrypt(self) -> dict["status":str, "message":str]:
+    def decrypt(self) -> dict[str, str]:
         """Realiza a descriptografia da mensagem inicializada
 
         Returns:
@@ -142,9 +142,7 @@ class PairCypher(CoreCriptography):
         # -----------------------------------------------------------
         matrix = self.generate_matrix(autenticated_message[0], first_key, blank=True)
 
-        reverse_key, matrix_refactored = self.matrix_refactory_by_index(
-            matrix, second_key_indexes
-        )
+        reverse_key, matrix_refactored = self.matrix_refactory_by_index(matrix, second_key_indexes)
         # -----------------------------------------------------------
         # Descrição:
         # Percorre toda a mensagem letra por letra, verifica
