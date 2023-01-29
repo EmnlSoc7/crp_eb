@@ -118,7 +118,7 @@ class InitialFrame(ttk.Frame):
         # ----------------------------------------------------
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
 
-    def operation_combobox_field(self):
+    def operation_combobox_field(self) -> ttk.Combobox:
         """Combobox para ação de criptografia ou descriptografia"""
 
         operation_selection = ttk.Combobox(self, textvariable=self.operation)
@@ -132,14 +132,14 @@ class InitialFrame(ttk.Frame):
     #  Interface da Chave Criptografica
     # ----------------------------------------------------
 
-    def keyword_type_label(self):
+    def keyword_type_label(self) -> ttk.Label:
         """Label para o tipo de chave criptografica"""
 
         label = ttk.Label(self, text="Tipo de Chave:")
         label.grid(column=0, row=0, sticky=tk.W, **self.OPTIONS)
         return label
 
-    def keyword_type_combobox(self):
+    def keyword_type_combobox(self) -> ttk.Combobox:
         """Combobox para o tipo de chave criptografica"""
 
         criptography_type = ttk.Combobox(self, textvariable=self.cript_type)
@@ -148,28 +148,28 @@ class InitialFrame(ttk.Frame):
         criptography_type.grid(column=1, row=0, sticky=tk.E, **self.OPTIONS)
         return criptography_type
 
-    def keyword_1_label(self):
+    def keyword_1_label(self) -> ttk.Label:
         """Label da primeira chave criptografica"""
 
         keyword_1_label = ttk.Label(self, text="Primeira Chave:")
         keyword_1_label.grid(column=0, row=1, sticky=tk.W, **self.OPTIONS)
         return keyword_1_label
 
-    def keyword_1_entry(self):
+    def keyword_1_entry(self) -> ttk.Entry:
         """Entry da primeira chave criptografica"""
 
         keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
         keyword_1.grid(column=1, row=1, sticky=tk.E, **self.OPTIONS)
         return keyword_1
 
-    def keyword_2_label(self):
+    def keyword_2_label(self) -> ttk.Label:
         """Label da segunda chave criptografica"""
 
         keyword_2_label = ttk.Label(self, text="Segunda Chave:")
         keyword_2_label.grid(column=0, row=2, sticky=tk.W, **self.OPTIONS)
         return keyword_2_label
 
-    def keyword_2_entry(self):
+    def keyword_2_entry(self) -> ttk.Entry:
         """Entry da segunda chave criptografica"""
 
         keyword_2 = ttk.Entry(self, textvariable=self.second_keyword)
@@ -185,21 +185,21 @@ class InitialFrame(ttk.Frame):
     #  Segunda Auth
     # -----------------------
 
-    def first_auth_label(self):
+    def first_auth_label(self) -> ttk.Label:
         """Label da primeira letra de autenticação"""
 
         label = ttk.Label(self, text="Primeira Letra:")
         label.grid(column=2, row=0, sticky=tk.W, **self.OPTIONS)
         return label
 
-    def first_auth_entry(self):
+    def first_auth_entry(self) -> ttk.Entry:
         """Entry da primeira letra de autenticação"""
 
         first_auth_entry = ttk.Entry(self, textvariable=self.first_au, justify="center", width=3)
         first_auth_entry.grid(column=3, row=0, sticky=tk.E, **self.OPTIONS)
         return first_auth_entry
 
-    def first_auth_combobox(self):
+    def first_auth_combobox(self) -> ttk.Combobox:
         """Combobox da segunda letra de autenticação"""
 
         first_au_box = ttk.Combobox(self, textvariable=self.first_au_pos, justify="center", width=3)
@@ -212,21 +212,21 @@ class InitialFrame(ttk.Frame):
     #  Segunda Auth
     # -----------------------
 
-    def second_auth_label(self):
+    def second_auth_label(self) -> ttk.Label:
         """Label da segunda letra de autenticação"""
 
         label = ttk.Label(self, text="Segunda Letra:")
         label.grid(column=2, row=1, sticky=tk.W, **self.OPTIONS)
         return label
 
-    def second_auth_entry(self):
+    def second_auth_entry(self) -> ttk.Entry:
         """Entry da segunda letra de autenticação"""
 
         entry = ttk.Entry(self, textvariable=self.second_au, justify="center", width=3)
         entry.grid(column=3, row=1, sticky=tk.E, **self.OPTIONS)
         return entry
 
-    def second_auth_combobox(self):
+    def second_auth_combobox(self) -> ttk.Combobox:
         """Combobox da segunda letra de autenticação"""
 
         combobox = ttk.Combobox(self, textvariable=self.second_au_pos, justify="center", width=3)
@@ -239,7 +239,7 @@ class InitialFrame(ttk.Frame):
     # Eventos e Validações (Metodos)
     # ----------------------------------------------------
 
-    def cript_type_changed(self, event):
+    def cript_type_changed(self, event) -> None:
         """Evento de mudanças do tipo de criptografia"""
         print(event)
         cript_choice = self.cript_type.get()
@@ -250,7 +250,7 @@ class InitialFrame(ttk.Frame):
             self.keyword_2.delete(0, tk.END)
             self.keyword_2["state"] = "readonly"
 
-    def character_formatting(self, entry_text):
+    def character_formatting(self, entry_text) -> None:
         """Realiza a formatação de caracter unico
 
         Parameters
@@ -322,7 +322,7 @@ class InitialFrame(ttk.Frame):
     # Execuções exceto eventos
     # ----------------------------------------------------
 
-    def change_status(self, message, color="green"):
+    def change_status(self, message, color="green") -> None:
         """Altera o status do retorno
 
         Parameters
@@ -332,7 +332,7 @@ class InitialFrame(ttk.Frame):
         """
         self.status.config(text=message, foreground=color)
 
-    def execute_cypher(self):
+    def execute_cypher(self) -> None:
         """Evento de execução do botão self.execute"""
 
         option = self.operation.get()
@@ -417,7 +417,7 @@ class InitialFrame(ttk.Frame):
         else:
             pass
 
-    def clear_interface(self):
+    def clear_interface(self) -> None:
         """Reseta todos os campos preenchidos"""
 
         self.cript_type.set("Chave Simples")
