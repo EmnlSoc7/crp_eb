@@ -5,11 +5,11 @@ import tkinter as tk
 from tkinter import ttk
 
 # Modulos locais
-from simple_cypher import SimpleCypher
-from pair_cypher import PairCypher
+from src.modules.simple_cypher import SimpleCypher
+from src.modules.pair_cypher import PairCypher
 
 
-class KeywordsFrame(ttk.Frame):
+class InitialFrame(ttk.Frame):
     """Interface de Criptografia
 
     Parameters
@@ -18,34 +18,22 @@ class KeywordsFrame(ttk.Frame):
         root de acesso da interface do tkinter
     """
 
+    OPTIONS = {"padx": 5, "pady": 5}
+
     def __init__(self, container):
         super().__init__(container)
-
-        # ----------------------------------------------------
-        # Opções Padrões
-        # ----------------------------------------------------
-        options = {"padx": 5, "pady": 5}
 
         # ----------------------------------------------------
         # Seleção do tipo de chave criptografica e de modo
         # ----------------------------------------------------
 
-        self.cript_label = ttk.Label(self, text="Tipo de Chave:")
-        self.cript_label.grid(column=0, row=0, sticky=tk.W, **options)
-
-        self.cript_type = tk.StringVar(value="Chave Simples")
-
-        self.criptography_type = ttk.Combobox(self, textvariable=self.cript_type)
-        self.criptography_type["values"] = ("Chave Simples", "Chave Dupla")
-        self.criptography_type["state"] = "readonly"
-        self.criptography_type.grid(column=1, row=0, sticky=tk.E, **options)
-
         self.operation = tk.StringVar()
         self.operation.set("Criptografar")
-        self.operation_selection = ttk.Combobox(self, textvariable=self.operation)
-        self.operation_selection["values"] = ("Criptografar", "Descriptografar")
-        self.operation_selection["state"] = "readonly"
-        self.operation_selection.grid(column=0, row=4, columnspan=2, sticky=tk.EW, **options)
+        self.operation_combobox = self.operation_combobox_field()
+
+        self.cript_type = tk.StringVar(value="Chave Simples")
+        self.cript_label = self.keyword_type_label()
+        self.criptography_type = self.keyword_type_combobox()
 
         # ---------------------------------------------------
         # Grid para as chaves criptograficas
@@ -55,66 +43,37 @@ class KeywordsFrame(ttk.Frame):
         # Primeira chave
         # -----------------
         self.first_keyword = tk.StringVar()
-        self.keyword_1_label = ttk.Label(self, text="Primeira Chave:")
-        self.keyword_1_label.grid(column=0, row=1, sticky=tk.W, **options)
-
-        self.keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
-        self.keyword_1.grid(column=1, row=1, sticky=tk.E, **options)
+        self.key_1_label = self.keyword_1_label()
+        self.keyword_1 = self.keyword_1_entry()
 
         # -----------------
         # Segunda chave
         # -----------------
         self.second_keyword = tk.StringVar()
-        self.keyword_2_label = ttk.Label(self, text="Segunda Chave:")
-        self.keyword_2_label.grid(column=0, row=2, sticky=tk.W, **options)
-
-        self.keyword_2 = ttk.Entry(self, textvariable=self.second_keyword)
-        self.keyword_2.grid(column=1, row=2, sticky=tk.E, **options)
-        self.keyword_2["state"] = "readonly"
+        self.key_2_label = self.keyword_1_label()
+        self.keyword_2 = self.keyword_2_entry()
 
         # ---------------------------------------------------
         # Grid das letras de autenticação
         # ---------------------------------------------------
 
         # -----------------
-        # primeira letra
+        # Primeira letra
         # -----------------
         self.first_au = tk.StringVar()
         self.first_au_pos = tk.StringVar()
-        self.first_autentication_label = ttk.Label(self, text="Primeira Letra:")
-        self.first_autentication_label.grid(column=2, row=0, sticky=tk.W, **options)
-
-        self.first_autentication = ttk.Entry(
-            self, textvariable=self.first_au, justify="center", width=3
-        )
-        self.first_autentication.grid(column=3, row=0, sticky=tk.E, **options)
-
-        self.first_au_pos_box = ttk.Combobox(
-            self, textvariable=self.first_au_pos, justify="center", width=3
-        )
-        self.first_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
-        self.first_au_pos_box["state"] = "readonly"
-        self.first_au_pos_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **options)
+        self.first_autentication_label = self.first_auth_label()
+        self.first_autentication = self.first_auth_entry()
+        self.first_au_pos_box = self.first_auth_combobox()
 
         # -----------------
-        # segunda letra
+        # Segunda letra
         # -----------------
         self.second_au = tk.StringVar()
         self.second_au_pos = tk.StringVar()
-        self.second_autentication_label = ttk.Label(self, text="Segunda Letra:")
-        self.second_autentication_label.grid(column=2, row=1, sticky=tk.W, **options)
-
-        self.second_autentication = ttk.Entry(
-            self, textvariable=self.second_au, justify="center", width=3
-        )
-        self.second_autentication.grid(column=3, row=1, sticky=tk.E, **options)
-
-        self.second_au_pos_box = ttk.Combobox(
-            self, textvariable=self.second_au_pos, justify="center", width=3
-        )
-        self.second_au_pos_box["values"] = ("1", "2", "3", "4", "5", "6", "7", "8", "9")
-        self.second_au_pos_box["state"] = "readonly"
-        self.second_au_pos_box.grid(column=4, row=1, columnspan=1, sticky=tk.W, **options)
+        self.second_autentication_label = self.second_auth_label()
+        self.second_autentication = self.second_auth_entry()
+        self.second_au_pos_box = self.second_auth_combobox()
 
         # ----------------------------------------------------
         # Mensagens de entrada e saida
@@ -135,13 +94,13 @@ class KeywordsFrame(ttk.Frame):
         # ----------------------------------------------------
 
         self.execute = ttk.Button(self, text="Executar", command=self.execute_cypher)
-        self.execute.grid(column=0, row=7, sticky=tk.EW, **options)
+        self.execute.grid(column=0, row=7, sticky=tk.EW, **self.OPTIONS)
 
         self.clear = ttk.Button(self, text="Limpar", command=self.clear_interface)
-        self.clear.grid(column=1, row=7, sticky=tk.W, **options)
+        self.clear.grid(column=1, row=7, sticky=tk.W, **self.OPTIONS)
 
         self.status = ttk.Label(self, text="", foreground="red", font=("bold", 11))
-        self.status.grid(column=2, row=7, sticky=tk.E, columnspan=12, **options)
+        self.status.grid(column=2, row=7, sticky=tk.E, columnspan=12, **self.OPTIONS)
 
         # ----------------------------------------------------
         # Gatilhos de Eventos
@@ -159,11 +118,128 @@ class KeywordsFrame(ttk.Frame):
         # ----------------------------------------------------
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
 
+    def operation_combobox_field(self) -> ttk.Combobox:
+        """Combobox para ação de criptografia ou descriptografia"""
+
+        operation_selection = ttk.Combobox(self, textvariable=self.operation)
+        operation_selection["values"] = ("Criptografar", "Descriptografar")
+        operation_selection["state"] = "readonly"
+        operation_selection.grid(column=0, row=4, columnspan=2, sticky=tk.EW, **self.OPTIONS)
+
+        return operation_selection
+
+    # ----------------------------------------------------
+    #  Interface da Chave Criptografica
+    # ----------------------------------------------------
+
+    def keyword_type_label(self) -> ttk.Label:
+        """Label para o tipo de chave criptografica"""
+
+        label = ttk.Label(self, text="Tipo de Chave:")
+        label.grid(column=0, row=0, sticky=tk.W, **self.OPTIONS)
+        return label
+
+    def keyword_type_combobox(self) -> ttk.Combobox:
+        """Combobox para o tipo de chave criptografica"""
+
+        criptography_type = ttk.Combobox(self, textvariable=self.cript_type)
+        criptography_type["values"] = ("Chave Simples", "Chave Dupla")
+        criptography_type["state"] = "readonly"
+        criptography_type.grid(column=1, row=0, sticky=tk.E, **self.OPTIONS)
+        return criptography_type
+
+    def keyword_1_label(self) -> ttk.Label:
+        """Label da primeira chave criptografica"""
+
+        keyword_1_label = ttk.Label(self, text="Primeira Chave:")
+        keyword_1_label.grid(column=0, row=1, sticky=tk.W, **self.OPTIONS)
+        return keyword_1_label
+
+    def keyword_1_entry(self) -> ttk.Entry:
+        """Entry da primeira chave criptografica"""
+
+        keyword_1 = ttk.Entry(self, textvariable=self.first_keyword)
+        keyword_1.grid(column=1, row=1, sticky=tk.E, **self.OPTIONS)
+        return keyword_1
+
+    def keyword_2_label(self) -> ttk.Label:
+        """Label da segunda chave criptografica"""
+
+        keyword_2_label = ttk.Label(self, text="Segunda Chave:")
+        keyword_2_label.grid(column=0, row=2, sticky=tk.W, **self.OPTIONS)
+        return keyword_2_label
+
+    def keyword_2_entry(self) -> ttk.Entry:
+        """Entry da segunda chave criptografica"""
+
+        keyword_2 = ttk.Entry(self, textvariable=self.second_keyword)
+        keyword_2.grid(column=1, row=2, sticky=tk.E, **self.OPTIONS)
+        keyword_2["state"] = "readonly"
+        return keyword_2
+
+    # ----------------------------------------------------
+    #  Interfaces de Autenticação
+    # ----------------------------------------------------
+
+    # -----------------------
+    #  Segunda Auth
+    # -----------------------
+
+    def first_auth_label(self) -> ttk.Label:
+        """Label da primeira letra de autenticação"""
+
+        label = ttk.Label(self, text="Primeira Letra:")
+        label.grid(column=2, row=0, sticky=tk.W, **self.OPTIONS)
+        return label
+
+    def first_auth_entry(self) -> ttk.Entry:
+        """Entry da primeira letra de autenticação"""
+
+        first_auth_entry = ttk.Entry(self, textvariable=self.first_au, justify="center", width=3)
+        first_auth_entry.grid(column=3, row=0, sticky=tk.E, **self.OPTIONS)
+        return first_auth_entry
+
+    def first_auth_combobox(self) -> ttk.Combobox:
+        """Combobox da segunda letra de autenticação"""
+
+        first_au_box = ttk.Combobox(self, textvariable=self.first_au_pos, justify="center", width=3)
+        first_au_box["values"] = [str(x) for x in range(1, 10)]
+        first_au_box["state"] = "readonly"
+        first_au_box.grid(column=4, row=0, columnspan=1, sticky=tk.W, **self.OPTIONS)
+        return first_au_box
+
+    # -----------------------
+    #  Segunda Auth
+    # -----------------------
+
+    def second_auth_label(self) -> ttk.Label:
+        """Label da segunda letra de autenticação"""
+
+        label = ttk.Label(self, text="Segunda Letra:")
+        label.grid(column=2, row=1, sticky=tk.W, **self.OPTIONS)
+        return label
+
+    def second_auth_entry(self) -> ttk.Entry:
+        """Entry da segunda letra de autenticação"""
+
+        entry = ttk.Entry(self, textvariable=self.second_au, justify="center", width=3)
+        entry.grid(column=3, row=1, sticky=tk.E, **self.OPTIONS)
+        return entry
+
+    def second_auth_combobox(self) -> ttk.Combobox:
+        """Combobox da segunda letra de autenticação"""
+
+        combobox = ttk.Combobox(self, textvariable=self.second_au_pos, justify="center", width=3)
+        combobox["values"] = [str(x) for x in range(1, 10)]
+        combobox["state"] = "readonly"
+        combobox.grid(column=4, row=1, columnspan=1, sticky=tk.W, **self.OPTIONS)
+        return combobox
+
     # ----------------------------------------------------
     # Eventos e Validações (Metodos)
     # ----------------------------------------------------
 
-    def cript_type_changed(self, event):
+    def cript_type_changed(self, event) -> None:
         """Evento de mudanças do tipo de criptografia"""
         print(event)
         cript_choice = self.cript_type.get()
@@ -174,7 +250,7 @@ class KeywordsFrame(ttk.Frame):
             self.keyword_2.delete(0, tk.END)
             self.keyword_2["state"] = "readonly"
 
-    def character_formatting(self, entry_text):
+    def character_formatting(self, entry_text) -> None:
         """Realiza a formatação de caracter unico
 
         Parameters
@@ -182,6 +258,12 @@ class KeywordsFrame(ttk.Frame):
         entry_text : StringVar()
             Realizado a formatação da StringVar() como caractere unico
         """
+
+        numbers_map = [str(x) for x in range(1, 10)]
+        for value in entry_text.get():
+            if value in numbers_map:
+                entry_text.set(entry_text.get().replace(value, ""))
+
         entry_text.set(entry_text.get().upper())
         if len(entry_text.get()) > 0:
             entry_text.set(entry_text.get()[-1])
@@ -240,7 +322,7 @@ class KeywordsFrame(ttk.Frame):
     # Execuções exceto eventos
     # ----------------------------------------------------
 
-    def change_status(self, message, color="green"):
+    def change_status(self, message, color="green") -> None:
         """Altera o status do retorno
 
         Parameters
@@ -250,22 +332,34 @@ class KeywordsFrame(ttk.Frame):
         """
         self.status.config(text=message, foreground=color)
 
-    def execute_cypher(self):
+    def execute_cypher(self) -> None:
         """Evento de execução do botão self.execute"""
 
-        option = self.operation_selection.get()
+        option = self.operation.get()
         cypher_type = self.criptography_type.get()
 
-        if option == "Criptografar":
-            if cypher_type == "Chave Simples":
+        if cypher_type == "Chave Simples":
 
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    self.change_status(validations["values"], "red")
-                    return
-                message, keyword, char_au = validations["values"]
+            validations = self.validate_params()
+            if validations["status"] is False:
+                print(validations["values"])
+                return
 
-                cypher = SimpleCypher(char_au, message, keyword)
+            message, keyword, char_au = validations["values"]
+
+            cypher = SimpleCypher(char_au, message, keyword)
+
+            if option == "Descriptografar":
+                decrypted_message = cypher.decrypt()
+
+                self.message_output.delete("1.0", "end")
+                if decrypted_message["status"] == "success":
+                    self.change_status("Descriptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
+            elif option == "Criptografar":
+
                 encrypted_message, status = cypher.encrypt()
 
                 self.message_output.delete("1.0", "end")
@@ -275,15 +369,28 @@ class KeywordsFrame(ttk.Frame):
                 else:
                     self.change_status(encrypted_message, "red")
 
-            elif cypher_type == "Chave Dupla":
+        elif cypher_type == "Chave Dupla":
 
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
+            validations = self.validate_params()
+            if validations["status"] is False:
+                print(validations["values"])
 
-                message, keywords, char_au = validations["values"]
+            message, keywords, char_au = validations["values"]
 
-                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+            cypher = PairCypher(char_au, message, keywords[0], keywords[1])
+
+            if option == "Descriptografar":
+
+                decrypted_message = cypher.decrypt()
+
+                self.message_output.delete("1.0", "end")
+                if decrypted_message["status"] == "success":
+                    self.change_status("Descriptografado com sucesso!", "green")
+                    self.message_output.insert("1.0", decrypted_message["message"])
+                else:
+                    self.change_status(decrypted_message["message"], "red")
+
+            elif option == "Criptografar":
 
                 encrypted_message = cypher.encrypt()
 
@@ -294,48 +401,10 @@ class KeywordsFrame(ttk.Frame):
                 else:
                     self.change_status(encrypted_message["message"], "red")
 
-        elif option == "Descriptografar":
-            if cypher_type == "Chave Simples":
-
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
-                    return
-
-                message, keyword, char_au = validations["values"]
-
-                cypher = SimpleCypher(char_au, message, keyword)
-
-                decrypted_message = cypher.decrypt()
-
-                self.message_output.delete("1.0", "end")
-                if decrypted_message["status"] == "success":
-                    self.change_status("Descriptografado com sucesso!", "green")
-                    self.message_output.insert("1.0", decrypted_message["message"])
-                else:
-                    self.change_status(decrypted_message["message"], "red")
-
-            elif cypher_type == "Chave Dupla":
-                validations = self.validate_params()
-                if validations["status"] is False:
-                    print(validations["values"])
-
-                message, keywords, char_au = validations["values"]
-
-                cypher = PairCypher(char_au, message, keywords[0], keywords[1])
-
-                decrypted_message = cypher.decrypt()
-
-                self.message_output.delete("1.0", "end")
-                if decrypted_message["status"] == "success":
-                    self.change_status("Descriptografado com sucesso!", "green")
-                    self.message_output.insert("1.0", decrypted_message["message"])
-                else:
-                    self.change_status(decrypted_message["message"], "red")
         else:
             pass
 
-    def clear_interface(self):
+    def clear_interface(self) -> None:
         """Reseta todos os campos preenchidos"""
 
         self.cript_type.set("Chave Simples")
@@ -364,16 +433,12 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("Criptografia")
+        self.title("Jaguar v1.5")
         self.geometry("690x380")
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
-        self.iconbitmap("src/img/comandos.ico")
 
 
 if __name__ == "__main__":
-    app = App()
-    KeywordsFrame(app)
-
-    app.mainloop()
+    pass
