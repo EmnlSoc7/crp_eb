@@ -433,12 +433,12 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title("Criptografia")
+        self.title("Jaguar v1.5")
         self.geometry("690x380")
         self.resizable(False, False)
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
-        self.iconbitmap("src/img/comandos.ico")
+        self.iconbitmap("src/img/jaguar.ico")
 
 
 if __name__ == "__main__":
